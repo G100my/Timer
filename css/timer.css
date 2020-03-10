@@ -1,0 +1,11 @@
+body {
+	text-align: center;
+		}
+
+hr {
+	border-color: rgb(78, 115, 236);
+	border-style: none;
+	border-top-style: dashed;
+	height: 2px;
+	width: 80%;
+}
