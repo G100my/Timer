@@ -131,3 +131,10 @@ function startCountDownClock() {
     }
   }, 1000);
 }
+
+function endMission() {
+  clearInterval(currentTimer);
+  currentMissionData.elapsedTime = (!currentMissionData.complete) ? (25 - currentMissionData.min - 1) + ":" + (60 - currentMissionData.sec) : 'Done';
+  tomato.doneMission.push(Object.assign({}, currentMissionData));
+  display.innerText = currentMissionData.name;
+};
