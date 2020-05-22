@@ -95,3 +95,19 @@ $("#mission_delete").click(() => {
   $("#mission_title_" + tomato.index).remove();
   tomato.index = (tomato.index <= tomato.doneMission.length) ? tomato.doneMission.length : tomato.index - 1;
 });
+function startCountDownClock() {
+  currentTimer = setInterval(() => {
+    currentMissionData.sec -= 1;
+    if (currentMissionData.sec < 0) {
+      currentMissionData.sec = 59;
+      currentMissionData.min = (currentMissionData.min - 1 < 10) ? '0' + currentMissionData.min - 1 : currentMissionData.min - 1;
+    } else if (currentMissionData.sec < 10) {
+      currentMissionData.sec = '0' + currentMissionData.sec;
+    };
+    $("#tomato_clock").text(currentMissionData.min + ':' + currentMissionData.sec);
+
+    if (currentMissionData.min == 00 && currentMissionData.sec == 00) {
+      endMission();
+    }
+  }, 1000);
+}
