@@ -41,4 +41,25 @@ $('#init').click(function () {
 });
 
 $('#stamp').click(function () { Stamp_start(); });
-$('#end').click(function () { Stamp_end();});
+$('#end').click(function () { Stamp_end(); });
+
+var currentTimer;
+var tomato = {
+  min: undefined,
+  sec: undefined,
+  index: 0,
+  missionList: [],
+  doneMission: [],
+  lastMissionTitle: null,
+  smokeCall: false
+};
+var currentMissionData = {
+  min: 25,
+  sec: 0,
+  startTime: null,
+  startDate: null,
+  name: null,
+  elapsedTime: null,
+  complete: false,
+  doing: false
+}
