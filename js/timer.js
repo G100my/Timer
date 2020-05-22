@@ -35,3 +35,10 @@ setInterval(() => {
   $("#digital_clock").text(clockTime);
 
 }, 1000);
+
+$('#init').click(function () {
+	initSheet(timerSheetID);
+});
+
+$('#stamp').click(function () { Stamp_start(); });
+$('#end').click(function () { Stamp_end();});
