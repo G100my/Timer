@@ -8,6 +8,25 @@ function getTimeNow() {
     n.getHours() + ":" + n.getMinutes() + ":" + n.getSeconds()
   )
 };
+
+function updateValue(rangeValue, values) {
+  gapi.client.sheets.spreadsheets
+    .values.update({
+      spreadsheetId: timerSheetID,
+      range: rangeValue,
+      valueInputOption: "USER_ENTERED",
+      values: values
+    })
+    .then(
+      function (response) {
+        console.log('Update Success:' + response);
+        test_display = response;
+      },
+      function (response) {
+        test_display = response;
+      }
+    );
+};
 function initFormatRepeatCell(rangeValue, inputValue) {
   gapi.client.sheets.spreadsheets
     .batchUpdate({
