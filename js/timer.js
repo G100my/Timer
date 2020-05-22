@@ -88,3 +88,10 @@ $("#mission_input").keyup((event) => {
   //esc鍵：清除目前所鍵入的文字
   (event.which === 27 && input.value !== '' && (input.value = ''));
 });
+
+$("#mission_delete").click(() => {
+  console.log(tomato.index);
+  tomato.missionList.pop();
+  $("#mission_title_" + tomato.index).remove();
+  tomato.index = (tomato.index <= tomato.doneMission.length) ? tomato.doneMission.length : tomato.index - 1;
+});
