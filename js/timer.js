@@ -63,3 +63,28 @@ var currentMissionData = {
   complete: false,
   doing: false
 }
+
+// mission_input
+let input = document.getElementById("mission_input");
+$("#mission_input").keyup((event) => {
+  //enter鍵：
+  // 如果不曾輸入過文字：null；
+  // 如果曾經送出過文字、但目前留空：上次輸入的文字；
+  let currenValue = (input.value === '') ? ((tomato.lastMissionTitle !== null) ? tomato.lastMissionTitle : null) : input.value;
+  // 任務計數 + 1、新增並顯示任務名稱、清空 input、紀錄送出的文字、新增至 mission_list，切換 mission_delete
+  if (event.which === 13 && (currenValue !== null || tomato.lastMissionTitle !== null)) {
+    tomato.index += 1;
+    $("#mission_list").append('<p id="mission_title_' + tomato.index + '" class="missions">Mission ' + tomato.index + ': <span id="mission_display_' + tomato.index + '"></span></p>');
+    $("#mission_display_" + tomato.index).text(currenValue);
+    input.value = '';
+
+    tomato.lastMissionTitle = currenValue;
+    tomato.missionList.push(currenValue);
+    console.log(tomato.missionList);
+
+    (tomato.index > 0 && $("#mission_delete").removeAttr("disabled"));
+    (tomato.index === 0 && $("mission_delete").attr("disabled", "disabled"));
+  };
+  //esc鍵：清除目前所鍵入的文字
+  (event.which === 27 && input.value !== '' && (input.value = ''));
+});
