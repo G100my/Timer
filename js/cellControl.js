@@ -9,6 +9,24 @@ function getTimeNow() {
   )
 };
 
+function getValue(rangeValue) {
+  gapi.client.sheets.spreadsheets
+    .values.get({
+      spreadsheetId: timerSheetID,
+      range: rangeValue,
+    })
+    .then(
+      function (response) {
+        console.log('Get Success:' + response);
+        test_display = response;
+      },
+      function (response) {
+        console.error("error: " + response);
+        test_display = response;
+      }
+    );
+};
+
 function updateValue(rangeValue, values) {
   gapi.client.sheets.spreadsheets
     .values.update({
