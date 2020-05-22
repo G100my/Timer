@@ -27,6 +27,35 @@ function updateValue(rangeValue, values) {
       }
     );
 };
+
+var startStampPosition;
+
+function Stamp_start() {
+  gapi.client.sheets.spreadsheets
+    .values.append({
+      spreadsheetId: timerSheetID,
+      range: "A1:A2",
+      valueInputOption: "USER_ENTERED",
+      values: [[getTimeNow()]],
+    }).then(
+      function (response) {
+        console.log('Append Success:' + response);
+        startStampPosition = response.result.updates.updatedRange;
+        test_display = response;
+      },
+      function (response) {
+        console.log(response);
+        test_display = response;
+      }
+    );
+  updateValue("F2", [[0]]);
+};
+
+function Stamp_end() {
+  updateValue('B' + startStampPosition.slice(startStampPosition.search('A') + 1), [[getTimeNow()]]);
+  updateValue("F2", [[1]]);
+};
+
 function initFormatRepeatCell(rangeValue, inputValue) {
   gapi.client.sheets.spreadsheets
     .batchUpdate({
