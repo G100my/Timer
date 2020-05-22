@@ -66,6 +66,7 @@ var currentMissionData = {
 
 // mission_input
 let input = document.getElementById("mission_input");
+let display = document.getElementById("current_mission");
 $("#mission_input").keyup((event) => {
   //enter鍵：
   // 如果不曾輸入過文字：null；
@@ -95,6 +96,25 @@ $("#mission_delete").click(() => {
   $("#mission_title_" + tomato.index).remove();
   tomato.index = (tomato.index <= tomato.doneMission.length) ? tomato.doneMission.length : tomato.index - 1;
 });
+
+$("#mission_start").click(() => { setTomato(25, 00); });
+$("#mission_end").click(() => { endMission() });
+$("#mission_pause").click(() => { clearInterval(currentTimer); });
+$("#mission_restart").click(() => { startCountDownClock(); });
+
+function setTomato(mins = 25, secs = 0) {
+  let now = new Date();
+  currentMissionData.startTime = now.getHours() + ":" + now.getMinutes();
+  currentMissionData.startDate = now.getFullYear() + "/" + now.getMonth() + "/" + now.getDate();
+  currentMissionData.name = (tomato.missionList.shift() === undefined) ? "Do your best!!" : tomato.missionList.shift();
+  currentMissionData.doing = true;
+  currentMissionData.min = mins < 10 ? '0' + mins : mins;
+  currentMissionData.sec = secs < 10 ? '0' + secs : secs;
+
+  display.innerText = currentMissionData.name;
+  startCountDownClock();
+};
+
 function startCountDownClock() {
   currentTimer = setInterval(() => {
     currentMissionData.sec -= 1;
