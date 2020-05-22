@@ -1,5 +1,13 @@
 var test_display;
 
+function getTimeNow() {
+  let n = new Date();
+  return (
+    n.getFullYear() + "/" + n.getMonth() + "/" + n.getDate()
+    + " " +
+    n.getHours() + ":" + n.getMinutes() + ":" + n.getSeconds()
+  )
+};
 function initFormatRepeatCell(rangeValue, inputValue) {
   gapi.client.sheets.spreadsheets
     .batchUpdate({
