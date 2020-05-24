@@ -21,7 +21,7 @@
 <body>
 
 	<h1>Time stamp</h1>
-	
+
 	<!-- sign in & sign out -->
 	<div class="button signin">
 		<button id="signIn" style="display: none;">Sign In</button>
@@ -44,35 +44,37 @@
 
 	<!-- sheet data display -->
 
-	
+
 	<!-- tomato clock -->
 	<hr>
-	<div class="tomato clock">
-		<div id="tomato_clock" class="clock">init tomato clock</div>
-	</div>
+
 	<div class="mission">
 		<span>Current Mission: </span>
 		<span id="current_mission"></span>
-		<hr>
-		<button id="mission_start">mission_start</button>
-		<button id="mission_next">mission_next</button>
-		<button id="mission_pause">mission_pause</button>
-		<button id="mission_end">mission_end</button>
-		<button id="mission_restart">mission_restart</button>
 	</div>
+	<div class="tomato clock">
+		<div id="tomato_clock" class="clock">init tomato clock</div>
+	</div>
+	<hr>
+	<div>
+		<button id="start_btn">start_btn</button>
+		<button id="pause_btn">pause_btn</button>
+		<button id="stop_btn">stop_btn</button>
+	</div>
+
 	<!-- mission input -->
 	<hr>
 	<div>
-		<label for="mission_input">Input your mission title :</label>
-		<input id="mission_input" type="text">
-		<button id="mission_delete" disabled="disabled">Delete Last Mission</button>
+		<label for="mission_input_btn">Input your mission title :</label>
+		<input id="mission_input_btn" type="text">
+		<button id="delete_btn" disabled="disabled">Delete Last Mission</button>
 	</div>
-	
+
 	<!-- mission_list -->
 	<div id="mission_list">
 	</div>
 
-	
+
 	<!-- google api -->
 	<script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()"
 		onreadystatechange="if (this.readyState === 'complete') this.onload()"></script>
@@ -81,7 +83,7 @@
 	<script src="js/cellControl.js"></script>
 	<script src="js/baseData.js"></script>
 	<script src="js/timer.js"></script>
-	
+
 </body>
 
 </html>
