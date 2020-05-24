@@ -106,7 +106,21 @@ $("#mission_start").click(() => { setTomato(25, 00); });
 $("#mission_end").click(() => { endMission() });
 $("#mission_pause").click(() => { clearInterval(currentTimer); });
 $("#mission_restart").click(() => { startCountDownClock(); });
+// =================== start pause stop
 
+function checkNext() {
+  let length = missionList.toDo.length;
+  if (length > 0) {
+    setNextMission();
+    setCountDown(mission.minSet);
+  };
+};
+
+function finishMission(completed = true) {
+  mission.status = false;
+  mission.completed = completed;
+  missionList.complete.push(mission);
+};
 
 function setNextMission(min = 25) {
   let toDo = missionList.toDo.shift();
@@ -139,11 +153,6 @@ function displayTimer(msg) {
   document.getElementById("tomato_clock").innerText = msg;
 };
 
-function endMission() {
-  clearInterval(currentTimer);
-  currentMissionData.elapsedTime = (!currentMissionData.complete) ? (25 - currentMissionData.min - 1) + ":" + (60 - currentMissionData.sec) : 'Done';
-  tomato.doneMission.push(Object.assign({}, currentMissionData));
-  display.innerText = currentMissionData.name;
 function displayMission(msg) {
   document.getElementById("current_mission").innerText = msg;
 };
