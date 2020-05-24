@@ -1,8 +1,9 @@
-// sheet stamp block
+// =================== sheet stamp
+
 $('#sheet_init').click(function () {
   console.log('click init');
   initSheet(timerSheetID);
-})
+});
 
 let stampState = true;
 $('#stamp_start').click(function () {
@@ -19,13 +20,15 @@ $('#stamp_end').click(function () {
   $('#stamp_start').show();
 });
 
-// normal clock
+// =================== normal clock
+
 var clockTime;
+var clock;
 setInterval(() => {
-  let t = new Date();
-  let h = t.getHours();
-  let m = t.getMinutes();
-  let s = t.getSeconds();
+  clock = new Date();
+  let h = clock.getHours();
+  let m = clock.getMinutes();
+  let s = clock.getSeconds();
 
   h = (h < 10) ? "0" + h : h;
   m = (m < 10) ? "0" + m : m;
@@ -33,13 +36,11 @@ setInterval(() => {
   clockTime = h + colon + m;
 
   $("#digital_clock").text(clockTime);
-
 }, 1000);
 
-$('#init').click(function () {
-	initSheet(timerSheetID);
-});
+// =================== sheet stamp
 
+$('#init').click(function () { initSheet(timerSheetID); });
 $('#stamp').click(function () { Stamp_start(); });
 $('#end').click(function () { Stamp_end(); });
 
