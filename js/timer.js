@@ -102,10 +102,6 @@ $("#delete_btn").click(() => {
   missionList.index = (missionList.index <= missionList.complete.length) ? missionList.complete.length : missionList.index - 1;
 });
 
-$("#mission_start").click(() => { setTomato(25, 00); });
-$("#mission_end").click(() => { endMission() });
-$("#mission_pause").click(() => { clearInterval(currentTimer); });
-$("#mission_restart").click(() => { startCountDownClock(); });
 // =================== start pause stop
 
 function checkNext() {
@@ -146,6 +142,27 @@ function setSmokeCall(min = 5, sec = 0) {
   setCountDown(min, sec);
   timer.start(checkNext);
 };
+
+$("#start_btn").click(() => {
+  if (!mission.status) {
+    setNextMission();
+    setCountDown(mission.minSet);
+  };
+  timer.start(() => {
+    finishMission();
+    setSmokeCall();
+    displayMission('SmokeCall');
+  });
+});
+
+$("#pause_btn").click(() => { timer.stop() });
+
+$("#stop_btn").click(() => {
+  finishMission(false);
+  mission.status = false;
+  timer.stop();
+  checkNext();
+});
 
 // =================== util
 
