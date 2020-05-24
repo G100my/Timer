@@ -44,31 +44,34 @@ $('#init').click(function () { initSheet(timerSheetID); });
 $('#stamp').click(function () { Stamp_start(); });
 $('#end').click(function () { Stamp_end(); });
 
-var currentTimer;
-var tomato = {
+// =================== input 
+var timer = {
   min: undefined,
   sec: undefined,
-  index: 0,
-  missionList: [],
-  doneMission: [],
-  lastMissionTitle: null,
-  smokeCall: false
+  num: undefined,
+  stop: undefined,
+  start: undefined
 };
-var currentMissionData = {
-  min: 25,
-  sec: 0,
-  startTime: null,
-  startDate: null,
-  name: null,
-  elapsedTime: null,
-  complete: false,
-  doing: false
-}
-
+var missionList = {
+  index: 0,
 // mission_input
 let input = document.getElementById("mission_input");
 let display = document.getElementById("current_mission");
 $("#mission_input").keyup((event) => {
+  toDo: [],
+  complete: [],
+  lastTitle: undefined,  //離線記錄用
+};
+var emptyMission = {
+  id: undefined,
+  name: undefined,
+  minSet: undefined,
+  startClockTime: undefined,
+  status: false,
+  completed: true
+};
+var mission = Object.assign({}, emptyMission);
+
   //enter鍵：
   // 如果不曾輸入過文字：null；
   // 如果曾經送出過文字、但目前留空：上次輸入的文字；
