@@ -107,39 +107,87 @@ $("#mission_end").click(() => { endMission() });
 $("#mission_pause").click(() => { clearInterval(currentTimer); });
 $("#mission_restart").click(() => { startCountDownClock(); });
 
-function setTomato(mins = 25, secs = 0) {
-  let now = new Date();
-  currentMissionData.startTime = now.getHours() + ":" + now.getMinutes();
-  currentMissionData.startDate = now.getFullYear() + "/" + now.getMonth() + "/" + now.getDate();
-  currentMissionData.name = (tomato.missionList.shift() === undefined) ? "Do your best!!" : tomato.missionList.shift();
-  currentMissionData.doing = true;
-  currentMissionData.min = mins < 10 ? '0' + mins : mins;
-  currentMissionData.sec = secs < 10 ? '0' + secs : secs;
 
-  display.innerText = currentMissionData.name;
-  startCountDownClock();
+function setNextMission(min = 25) {
+  let toDo = missionList.toDo.shift();
+  $(".missions:first").remove();
+
+  try {
+    mission.id = toDo.id;
+    mission.name = toDo.name;
+  } catch (error) {
+    missionList.index += 1;
+    mission.id = missionList.index;
+    mission.name = "Do your best!";
+  };
+  mission.startClockTime = clockTime;
+  mission.Date = clock.toLocaleDateString();
+  mission.minSet = min;
+  mission.status = true;
+
+  displayMission(mission.id + ' ' + mission.name);
 };
 
-function startCountDownClock() {
-  currentTimer = setInterval(() => {
-    currentMissionData.sec -= 1;
-    if (currentMissionData.sec < 0) {
-      currentMissionData.sec = 59;
-      currentMissionData.min = (currentMissionData.min - 1 < 10) ? '0' + currentMissionData.min - 1 : currentMissionData.min - 1;
-    } else if (currentMissionData.sec < 10) {
-      currentMissionData.sec = '0' + currentMissionData.sec;
-    };
-    $("#tomato_clock").text(currentMissionData.min + ':' + currentMissionData.sec);
+function setSmokeCall(min = 5, sec = 0) {
+  setCountDown(min, sec);
+  timer.start(checkNext);
+};
 
-    if (currentMissionData.min == 00 && currentMissionData.sec == 00) {
-      endMission();
-    }
-  }, 1000);
-}
+// =================== util
+
+function displayTimer(msg) {
+  document.getElementById("tomato_clock").innerText = msg;
+};
 
 function endMission() {
   clearInterval(currentTimer);
   currentMissionData.elapsedTime = (!currentMissionData.complete) ? (25 - currentMissionData.min - 1) + ":" + (60 - currentMissionData.sec) : 'Done';
   tomato.doneMission.push(Object.assign({}, currentMissionData));
   display.innerText = currentMissionData.name;
+function displayMission(msg) {
+  document.getElementById("current_mission").innerText = msg;
+};
+
+function addZero(num) {
+  return (num < 10) ? '0' + num : num;
+};
+
+function setCountDown(min = 25, sec = 0) {
+  timer.min = min;
+  timer.sec = sec;
+  timer.start = (callback = () => { console.log('No next mission? Really?') }) => {
+    timer.num = setInterval(() => {
+      timer.sec -= 1;
+      if (timer.min == 0 && timer.sec == 0) {
+        clearInterval(timer.num);
+        callback();
+      };
+      if (timer.sec < 0) {
+        timer.sec = 59;
+        timer.min -= 1;
+      };
+      let min_sec = addZero(timer.min) + ':' + addZero(timer.sec);
+      console.log(min_sec);
+      displayTimer(min_sec);
+    }, 1000);
+  };
+  timer.stop = () => clearInterval(timer.num);
+};
+
+function setCountUp(min = 0, sec = 0) {
+  timer.min = min;
+  timer.sec = sec;
+  timer.start = () => {
+    timer.num = setInterval(() => {
+      timer.sec += 1;
+      if (timer.sec >= 60) {
+        timer.sec = 0;
+        timer.min += 1;
+      };
+      let min_sec = addZero(timer.min) + ':' + addZero(timer.sec);
+      console.log(min_sec);
+      displayTimer(min_sec);
+    }, 1000);
+  };
+  timer.stop = () => clearInterval(timer.num);
 };
