@@ -32,8 +32,7 @@ setInterval(() => {
 
   h = (h < 10) ? "0" + h : h;
   m = (m < 10) ? "0" + m : m;
-  colon = (s % 2 == 0) ? " " : ":";
-  clockTime = h + colon + m;
+  clockTime = h + ' : ' + m;
 
   $("#digital_clock").text(clockTime);
 }, 1000);
