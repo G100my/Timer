@@ -72,8 +72,9 @@ let input = document.getElementById("mission_input_btn");
 let current_mission_display = document.getElementById("current_mission");
 
 function addToMissionListDisplay(textValue) {
-  $("#mission_list").append('<p id="mission_' + missionList.index + '" class="missions">Mission ' + missionList.index + ': <span id="mission_name_' + missionList.index + '"></span></p>');
-  $("#mission_name_" + missionList.index).text(textValue);
+  let id = Date.now();
+  $("#mission_list").append(
+    '<p id="' + id + '" class="missions">' + textValue + "<button onclick='deleteMission(" + id + ")'>delete</button></p>");
 };
 
 $("#mission_input_btn").keyup((event) => {
@@ -88,19 +89,16 @@ $("#mission_input_btn").keyup((event) => {
 
     addToMissionListDisplay(currenValue);
     input.value = '';
-
-    (missionList.index > 0 && $("#delete_btn").removeAttr("disabled"));
-    (missionList.index === 0 && $("delete_btn").attr("disabled", "disabled"));
   };
   //esc鍵：清除目前所鍵入的文字
   (event.which === 27 && input.value !== '' && (input.value = ''));
 });
 
-$("#delete_btn").click(() => {
+function deleteMission(id) {
   missionList.toDo.pop();
-  $("#mission_" + missionList.index).remove();
+  $("#" + id).remove();
   missionList.index = (missionList.index <= missionList.complete.length) ? missionList.complete.length : missionList.index - 1;
-});
+};
 
 // =================== start pause stop
 
