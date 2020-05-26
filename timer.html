@@ -1,101 +1,105 @@
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
 
-<head>
-	<title>Timer</title>
-	<meta charset="UTF-8">
-	<!-- viewport: 可視範圍 initial-scale: 初始化縮放-->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, shrink-to-fit=no">
+	<head>
+		<title>Timer</title>
+		<meta charset="UTF-8">
+		<!-- viewport: 可視範圍 initial-scale: 初始化縮放-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, shrink-to-fit=no">
 
-	<!-- bootstrap -->
-	<link rel="stylesheet" href="bootstrap\bootstrap.css">
+		<!-- bootstrap -->
+		<link rel="stylesheet" href="bootstrap\bootstrap.css">
 
-	<!-- CSS -->
-	<link rel="stylesheet" href="css/timer.css">
-	<link rel="icon" href="favicon.ico">
-</head>
+		<!-- CSS -->
+		<link rel="stylesheet" href="css/timer.css">
+		<link rel="icon" href="favicon.ico">
+	</head>
 
-<body>
-	<header>
-		<nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #427aa1;">
-			<a class="navbar-brand" href="#">Tomato Timer</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-				aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse flex-row-reverse" id="navbarSupportedContent">
-				<div class="navbar-nav">
-					<a class="nav-item nav-link " href="#">about</a>
-					<button class="nav-item btn btn-sm btn-outline-light" id="signIn" style="display: inline;">Sign In</button>
-					<button class="nav-item btn btn-sm btn-outline-light" id="signOut" style="display: none;">Sign Out</button>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #427aa1;">
+				<a class="navbar-brand" href="#">Tomato Timer</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse flex-row-reverse" id="navbarSupportedContent">
+					<div class="navbar-nav">
+						<a class="nav-item nav-link " href="#">about</a>
+						<button class="nav-item btn btn-sm btn-outline-light" id="signIn" style="display: inline;">Sign In</button>
+						<button class="nav-item btn btn-sm btn-outline-light" id="signOut" style="display: none;">Sign Out</button>
+					</div>
+				</div>
+			</nav>
+		</header>
+
+		<main>
+			<div class="container-fluid">
+				<div class="row">
+					<!-- left side -->
+					<div class="col-3">
+						<!-- clock -->
+						<div class="clock">
+							<div id="now">現在時間</div>
+							<div id="digital_clock" class="clock"></div>
+						</div>
+						<!-- mission input -->
+						<hr>
+						<div>
+							<label for="mission_input_btn">Input your mission title :</label>
+							<input id="mission_input_btn" type="text">
+							<button id="delete_btn" disabled="disabled">Delete Last Mission</button>
+						</div>
+
+						<!-- mission_list -->
+						<div id="mission_list">
+						</div>
+					</div>
+
+					<!-- middle -->
+					<div class="col">
+						<!-- tomato clock -->
+						<div class="mission">
+							<span id="current_mission"></span>
+						</div>
+						<div class="tomato clock">
+							<div id="tomato_clock" class="clock">init tomato clock</div>
+						</div>
+						<hr>
+						<div>
+							<button id="start_btn">start_btn</button>
+							<button id="pause_btn">pause_btn</button>
+							<button id="stop_btn">stop_btn</button>
+						</div>
+						<!-- stamp button -->
+						<hr>
+						<div class="stamp button">
+							<input id="recodeText" type="text">
+							<button id="stamp_start" style="display: inline;">stamp_start</button>
+							<button id="stamp_end" style="display: none;">stamp_end</button>
+							<button id='sheet_init'>sheet_init</button>
+						</div>
+					</div>
 				</div>
 			</div>
-		</nav>
-	</header>
-
-	<!-- clock -->
-	<div class="clock">
-		<div id="now">現在時間</div>
-		<div id="digital_clock" class="clock"></div>
-	</div>
-
-	<!-- stamp button -->
-	<div class="stamp button">
-		<input id="recodeText" type="text">
-		<button id="stamp_start" style="display: inline;">stamp_start</button>
-		<button id="stamp_end" style="display: none;">stamp_end</button>
-		<button id='sheet_init'>sheet_init</button>
-	</div>
-
-	<!-- sheet data display -->
+		</main>
 
 
-	<!-- tomato clock -->
-	<hr>
-
-	<div class="mission">
-		<span>Current Mission: </span>
-		<span id="current_mission"></span>
-	</div>
-	<div class="tomato clock">
-		<div id="tomato_clock" class="clock">init tomato clock</div>
-	</div>
-	<hr>
-	<div>
-		<button id="start_btn">start_btn</button>
-		<button id="pause_btn">pause_btn</button>
-		<button id="stop_btn">stop_btn</button>
-	</div>
-
-	<!-- mission input -->
-	<hr>
-	<div>
-		<label for="mission_input_btn">Input your mission title :</label>
-		<input id="mission_input_btn" type="text">
-		<button id="delete_btn" disabled="disabled">Delete Last Mission</button>
-	</div>
-
-	<!-- mission_list -->
-	<div id="mission_list">
-	</div>
-
-
-	<!-- google api -->
-	<!-- <script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()"
+		<!-- google api -->
+		<!-- <script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()"
 		onreadystatechange="if (this.readyState === 'complete') this.onload()"></script> -->
 
-	<!-- jquery -->
-	<script src="js\jquery-3.5.1.js"></script>
-	
-	<!-- Bootstrap JS -->
-	<script src="bootstrap\bootstrap.bundle.js"></script>
+		<!-- jquery -->
+		<script src="js\jquery-3.5.1.js"></script>
 
-	<!-- JS -->
-	<script src="js/signinStatus.js"></script>
-	<script src="js/cellControl.js"></script>
-	<script src="js/baseData.js"></script>
-	<script src="js/timer.js"></script>
+		<!-- Bootstrap JS -->
+		<script src="bootstrap\bootstrap.bundle.js"></script>
 
-</body>
+		<!-- JS -->
+		<script src="js/signinStatus.js"></script>
+		<script src="js/cellControl.js"></script>
+		<script src="js/baseData.js"></script>
+		<script src="js/timer.js"></script>
+
+	</body>
 
 </html>
