@@ -16,14 +16,22 @@
 </head>
 
 <body>
-
-	<h1>Time stamp</h1>
-
-	<!-- sign in & sign out -->
-	<div class="button signin">
-		<button id="signIn" style="display: none;">Sign In</button>
-		<button id="signOut" style="display: inline;">Sign Out</button>
-	</div>
+	<header>
+		<nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #427aa1;">
+			<a class="navbar-brand" href="#">Tomato Timer</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse flex-row-reverse" id="navbarSupportedContent">
+				<div class="navbar-nav">
+					<a class="nav-item nav-link " href="#">about</a>
+					<button class="nav-item btn btn-sm btn-outline-light" id="signIn" style="display: inline;">Sign In</button>
+					<button class="nav-item btn btn-sm btn-outline-light" id="signOut" style="display: none;">Sign Out</button>
+				</div>
+			</div>
+		</nav>
+	</header>
 
 	<!-- clock -->
 	<div class="clock">
