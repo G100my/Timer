@@ -45,8 +45,11 @@ setInterval(() => {
 
 // ===================
 
-function addToListDisplay(textValue) {
+function addToList(textValue) {
   let id = Date.now();
+  list.index += 1;
+  list.toDo.push({ id: list.index, name: currenValue });
+
   $("#mission_list").append(
     '<p id="' + id + '" class="missions">' + textValue + "<button onclick='deleteMission(" + id + ")'>delete</button></p>");
 };

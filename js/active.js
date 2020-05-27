@@ -23,11 +23,8 @@ $("#mission_input_btn").keyup((event) => {
 	// 如果曾經送出過文字、但目前留空：上次輸入的文字；
 	let currenValue = (input.value === '') ? ((list.lastTitle !== null) ? list.lastTitle : null) : input.value;
 	if (event.which === 13 && (currenValue !== null || list.lastTitle !== null)) {
-		list.index += 1;
-		list.lastTitle = currenValue;
-		list.toDo.push({ id: list.index, name: currenValue });
-
-		addToListDisplay(currenValue);
+		
+		addToList(currenValue);
 		input.value = '';
 	};
 	//esc鍵：清除目前所鍵入的文字
