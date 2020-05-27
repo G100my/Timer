@@ -7,21 +7,18 @@ var timer = {
   stop: undefined,
   start: undefined
 };
-var list = {
-  index: 0,
+var list = getLocal('localList') || {
   toDo: [],
   complete: [],
-  lastTitle: undefined,  //離線記錄用
+  lastTitle: undefined
 };
 var emptyMission = {
-  id: undefined,
+  startTime: undefined,
   name: undefined,
   minSet: undefined,
-  startClockTime: undefined,
-  status: false,
-  completed: true
+  completed: false
 };
-var mission = Object.assign({}, emptyMission);
+var mission = getLocal('localMission') || Object.assign({}, emptyMission);
 
 let input = document.getElementById("mission_input_btn");
 let current_mission_display = document.getElementById("current_mission");
@@ -47,9 +44,8 @@ setInterval(() => {
 
 function addToList(textValue) {
   let id = Date.now();
-  list.index += 1;
-  list.toDo.push({ id: list.index, name: currenValue });
-
+  list.toDo.push({ id: id, name: textValue });
+  setLocal('localList', list);
   $("#mission_list").append(
     '<p id="' + id + '" class="missions">' + textValue + "<button onclick='deleteMission(" + id + ")'>delete</button></p>");
 };
@@ -57,7 +53,7 @@ function addToList(textValue) {
 function deleteMission(id) {
   list.toDo.pop();
   $("#" + id).remove();
-  list.index = (list.index <= list.complete.length) ? list.complete.length : list.index - 1;
+  setLocal('localList', list);
 };
 
 function checkNext() {
@@ -69,7 +65,6 @@ function checkNext() {
 };
 
 function finishMission(completed = true) {
-  mission.status = false;
   mission.completed = completed;
   list.complete.push(mission);
 };
@@ -77,21 +72,18 @@ function finishMission(completed = true) {
 function setNextMission(min = 25) {
   let toDo = list.toDo.shift();
   $(".missions:first").remove();
-
   try {
     mission.id = toDo.id;
     mission.name = toDo.name;
   } catch (error) {
-    list.index += 1;
-    mission.id = list.index;
+    mission.id = Date.now();
     mission.name = "Do your best!";
   };
-  mission.startClockTime = clockTime;
   mission.Date = clock.toLocaleDateString();
   mission.minSet = min;
-  mission.status = true;
-
-  displayMission(mission.id + ' ' + mission.name);
+  displayMission(mission.name);
+  setLocal('localList', list);
+  setLocal('localMission', mission);
 };
 
 function setSmokeCall(min = 5, sec = 0) {
@@ -114,7 +106,6 @@ function setCountDown(min = 25, sec = 0) {
         timer.min -= 1;
       };
       let min_sec = addZero(timer.min) + ':' + addZero(timer.sec);
-      console.log(min_sec);
       displayTimer(min_sec);
     }, 1000);
   };
@@ -132,15 +123,35 @@ function setCountUp(min = 0, sec = 0) {
         timer.min += 1;
       };
       let min_sec = addZero(timer.min) + ':' + addZero(timer.sec);
-      console.log(min_sec);
       displayTimer(min_sec);
     }, 1000);
   };
   timer.stop = () => clearInterval(timer.num);
 };
 
+function loadLocal() {
+  let localList = getLocal('localList');
+  let localMission = getLocal('localMission');
+  if (localList) {
+    list = localList;
+    input.value = localList.lastTitle;
+    localList.toDo.forEach(e => {
+      $("#mission_list").append(
+        '<p id="' + e.id + '" class="missions">' + e.name + "<button onclick='deleteMission(" + e.id + ")'>delete</button></p>");
+    });
+  };
+  if (localMission) {
+    t = ((localMission.id + localMission.minSet * 60000) - Date.now()) / 1000;
 
-
+    if (t > 1) {
+      let m = parseInt((t) / 60);
+      let s = parseInt(t % 60)
+      setCountDown(m, s);
+      timer.start(setSmokeCall);
+      displayMission(localMission.name);
+    }
+  };
+};
 
 // =================== 
 
@@ -156,4 +167,11 @@ function addZero(num) {
   return (num < 10) ? '0' + num : num;
 };
 
+function setLocal(key, item) {
+  localStorage.setItem(key, JSON.stringify(item));
+};
+
+function getLocal(item) {
+  let v = JSON.parse(localStorage.getItem(item));
+  return (v === null) ? false : v;
 };

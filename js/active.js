@@ -21,9 +21,9 @@ $("#mission_input_btn").keyup((event) => {
 	//enter鍵：
 	// 如果不曾輸入過文字：null；
 	// 如果曾經送出過文字、但目前留空：上次輸入的文字；
-	let currenValue = (input.value === '') ? ((list.lastTitle !== null) ? list.lastTitle : null) : input.value;
-	if (event.which === 13 && (currenValue !== null || list.lastTitle !== null)) {
-		
+	let currenValue = (input.value === '') ? ((list.lastTitle === undefined) ? '' : list.lastTitle) : input.value;
+	if (event.which === 13 && (currenValue !== '' || list.lastTitle !== '')) {
+		list.lastTitle = currenValue;
 		addToList(currenValue);
 		input.value = '';
 	};
@@ -32,10 +32,11 @@ $("#mission_input_btn").keyup((event) => {
 });
 
 $("#start_btn").click(() => {
-	if (!mission.status) {
+	if (mission.status === false) {
 		setNextMission();
 		setCountDown(mission.minSet);
 	};
+	mission.startTime = Date.now();
 	timer.start(() => {
 		finishMission();
 		setSmokeCall();
@@ -46,8 +47,7 @@ $("#start_btn").click(() => {
 $("#pause_btn").click(() => { timer.stop() });
 
 $("#stop_btn").click(() => {
-	finishMission(false);
-	mission.status = false;
 	timer.stop();
+	finishMission(false);
 	checkNext();
 });
