@@ -135,18 +135,14 @@ function setCountUp(min = 0, sec = 0) {
 };
 
 function loadLocal() {
-  let localList = getLocal('localList');
-  let localMission = getLocal('localMission');
-  if (localList) {
-    list = localList;
-    input.value = localList.lastTitle;
-    localList.toDo.forEach(e => {
+  if (list.toDo.length > 0) {
+    list.toDo.forEach(e => {
       $("#mission_list").append(
         '<p id="' + e.id + '" class="missions">' + e.name + "<button onclick='deleteMission(" + e.id + ")'>delete</button></p>");
     });
   };
-  if (localMission) {
-    t = ((localMission.id + localMission.minSet * 60000) - Date.now()) / 1000;
+  if (mission.startTime !== undefined) {
+    t = ((mission.startTime + mission.minSet * 60000) - Date.now()) / 1000;
 
     if (t > 1) {
       let m = parseInt((t) / 60);
