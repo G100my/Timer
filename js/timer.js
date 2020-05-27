@@ -51,7 +51,7 @@ var timer = {
   stop: undefined,
   start: undefined
 };
-var missionList = {
+var list = {
   index: 0,
   toDo: [],
   complete: [],
@@ -70,7 +70,7 @@ var mission = Object.assign({}, emptyMission);
 let input = document.getElementById("mission_input_btn");
 let current_mission_display = document.getElementById("current_mission");
 
-function addToMissionListDisplay(textValue) {
+function addToListDisplay(textValue) {
   let id = Date.now();
   $("#mission_list").append(
     '<p id="' + id + '" class="missions">' + textValue + "<button onclick='deleteMission(" + id + ")'>delete</button></p>");
@@ -80,13 +80,13 @@ $("#mission_input_btn").keyup((event) => {
   //enter鍵：
   // 如果不曾輸入過文字：null；
   // 如果曾經送出過文字、但目前留空：上次輸入的文字；
-  let currenValue = (input.value === '') ? ((missionList.lastTitle !== null) ? missionList.lastTitle : null) : input.value;
-  if (event.which === 13 && (currenValue !== null || missionList.lastTitle !== null)) {
-    missionList.index += 1;
-    missionList.lastTitle = currenValue;
-    missionList.toDo.push({ id: missionList.index, name: currenValue });
+  let currenValue = (input.value === '') ? ((list.lastTitle !== null) ? list.lastTitle : null) : input.value;
+  if (event.which === 13 && (currenValue !== null || list.lastTitle !== null)) {
+    list.index += 1;
+    list.lastTitle = currenValue;
+    list.toDo.push({ id: list.index, name: currenValue });
 
-    addToMissionListDisplay(currenValue);
+    addToListDisplay(currenValue);
     input.value = '';
   };
   //esc鍵：清除目前所鍵入的文字
@@ -94,15 +94,15 @@ $("#mission_input_btn").keyup((event) => {
 });
 
 function deleteMission(id) {
-  missionList.toDo.pop();
+  list.toDo.pop();
   $("#" + id).remove();
-  missionList.index = (missionList.index <= missionList.complete.length) ? missionList.complete.length : missionList.index - 1;
+  list.index = (list.index <= list.complete.length) ? list.complete.length : list.index - 1;
 };
 
 // =================== start pause stop
 
 function checkNext() {
-  let length = missionList.toDo.length;
+  let length = list.toDo.length;
   if (length > 0) {
     setNextMission();
     setCountDown(mission.minSet);
@@ -112,19 +112,19 @@ function checkNext() {
 function finishMission(completed = true) {
   mission.status = false;
   mission.completed = completed;
-  missionList.complete.push(mission);
+  list.complete.push(mission);
 };
 
 function setNextMission(min = 25) {
-  let toDo = missionList.toDo.shift();
+  let toDo = list.toDo.shift();
   $(".missions:first").remove();
 
   try {
     mission.id = toDo.id;
     mission.name = toDo.name;
   } catch (error) {
-    missionList.index += 1;
-    mission.id = missionList.index;
+    list.index += 1;
+    mission.id = list.index;
     mission.name = "Do your best!";
   };
   mission.startClockTime = clockTime;
