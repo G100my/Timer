@@ -18,6 +18,7 @@ var emptyMission = {
   minSet: undefined,
   completed: false,
   repeat: false,
+  combo: 0
 };
 var mission = getLocal('localMission') || Object.assign({}, emptyMission);
 let input = document.getElementById("mission_input_btn");
@@ -57,22 +58,32 @@ function deleteMission(id) {
 };
 
 function checkNext() {
-  if (!mission.repeat) {
-    setNextMission();
+  if (combo >= 4) {
+    setSmokeCall(20, 0);
+    displayMission('take a walk!');
+    return;
   };
-  mission.completed = false;
+  if (mission.repeat) {
+    setCountDown(mission.minSet);
+    mission.completed = false;
+    timer.start(() => {
+      finishMission();
+      setSmokeCall();
+    });
+    return;
+  };
+  setNextMission();
   setCountDown(mission.minSet);
   displayMission(mission.name);
-  timer.start(() => {
-    finishMission();
-    setSmokeCall();
-  });
+  $("#start_btn").show();
+  $("#stop_btn").hide();
 };
 
 function finishMission(completed = true) {
   mission.completed = completed;
+  completed && (mission.combo += 1);
   list.complete.push(mission);
-  
+
   mission = Object.assign({}, emptyMission);
   setLocal('localMission', mission);
 };
@@ -95,7 +106,6 @@ function setNextMission(min = 25) {
 
 function setSmokeCall(min = 5, sec = 0) {
   setCountDown(min, sec);
-  displayMission('SmokeCall');
   timer.start(checkNext);
 };
 

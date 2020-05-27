@@ -38,6 +38,7 @@ $("#start_btn").click(() => {
 	timer.start(() => {
 		finishMission();
 		setSmokeCall();
+		displayMission('SmokeCall');
 	});
 	setLocal('localMission', mission);
 	setLocal('localList', list);
