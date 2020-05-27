@@ -75,17 +75,18 @@ function finishMission(completed = true) {
 };
 
 function setNextMission(min = 25) {
-  let toDo = list.toDo.shift();
-  $(".missions:first").remove();
-  try {
-    mission.id = toDo.id;
-    mission.name = toDo.name;
-  } catch (error) {
-    mission.id = Date.now();
-    mission.name = "Do your best!";
-  };
   mission.Date = clock.toLocaleDateString();
   mission.minSet = min;
+  setCountDown(min);
+  // 允許沒有輸入事件、行程
+  if (list.toDo.length > 0) {
+    console.log('ggg');
+    let toDo = list.toDo.shift();
+    $(".missions:first").remove();
+    mission.name = toDo.name;
+  } else {
+    mission.name = 'Do your best';
+  };
   displayMission(mission.name);
 };
 
@@ -152,7 +153,6 @@ function loadLocal() {
       let s = parseInt(t % 60)
       setCountDown(m, s);
       timer.start(setSmokeCall);
-      displayMission(localMission.name);
       displayMission(mission.name);
 
       $("#start_btn").hide();
