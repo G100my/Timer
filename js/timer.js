@@ -72,6 +72,9 @@ function checkNext() {
 function finishMission(completed = true) {
   mission.completed = completed;
   list.complete.push(mission);
+  
+  mission = Object.assign({}, emptyMission);
+  setLocal('localMission', mission);
 };
 
 function setNextMission(min = 25) {
