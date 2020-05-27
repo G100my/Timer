@@ -16,7 +16,8 @@ var emptyMission = {
   startTime: undefined,
   name: undefined,
   minSet: undefined,
-  completed: false
+  completed: false,
+  repeat: false,
 };
 var mission = getLocal('localMission') || Object.assign({}, emptyMission);
 
@@ -57,11 +58,16 @@ function deleteMission(id) {
 };
 
 function checkNext() {
-  let length = list.toDo.length;
-  if (length > 0) {
+  if (!mission.repeat) {
     setNextMission();
-    setCountDown(mission.minSet);
   };
+  mission.completed = false;
+  setCountDown(mission.minSet);
+  displayMission(mission.name);
+  timer.start(() => {
+    finishMission();
+    setSmokeCall();
+  });
 };
 
 function finishMission(completed = true) {
@@ -149,6 +155,10 @@ function loadLocal() {
       setCountDown(m, s);
       timer.start(setSmokeCall);
       displayMission(localMission.name);
+      displayMission(mission.name);
+
+      $("#start_btn").hide();
+      $("#stop_btn").show();
     }
   };
 };

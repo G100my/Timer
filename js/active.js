@@ -32,22 +32,30 @@ $("#mission_input_btn").keyup((event) => {
 });
 
 $("#start_btn").click(() => {
-	if (mission.status === false) {
-		setNextMission();
-		setCountDown(mission.minSet);
-	};
+	setNextMission();
+	setCountDown(mission.misSet);
 	mission.startTime = Date.now();
 	timer.start(() => {
 		finishMission();
 		setSmokeCall();
 		displayMission('SmokeCall');
 	});
+	$("#start_btn").hide();
+	$("#stop_btn").show();
 });
 
-$("#pause_btn").click(() => { timer.stop() });
+$("#repeat_btn").click(() => {
+	mission.repeat = !mission.repeat;
+	setLocal('localMission', mission);
+	console.log(mission.repeat);
+});
 
 $("#stop_btn").click(() => {
 	timer.stop();
 	finishMission(false);
-	checkNext();
+	displayMission('stop');
+	displayTimer('25:00');
+
+	$("#start_btn").show();
+	$("#stop_btn").hide();
 });
