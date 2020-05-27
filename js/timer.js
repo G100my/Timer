@@ -20,7 +20,6 @@ var emptyMission = {
   repeat: false,
 };
 var mission = getLocal('localMission') || Object.assign({}, emptyMission);
-
 let input = document.getElementById("mission_input_btn");
 let current_mission_display = document.getElementById("current_mission");
 
@@ -88,12 +87,11 @@ function setNextMission(min = 25) {
   mission.Date = clock.toLocaleDateString();
   mission.minSet = min;
   displayMission(mission.name);
-  setLocal('localList', list);
-  setLocal('localMission', mission);
 };
 
 function setSmokeCall(min = 5, sec = 0) {
   setCountDown(min, sec);
+  displayMission('SmokeCall');
   timer.start(checkNext);
 };
 
