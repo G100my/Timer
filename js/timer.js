@@ -4,8 +4,10 @@ var timer = {
   min: undefined,
   sec: undefined,
   num: undefined,
-  stop: undefined,
   start: undefined
+  stop: () => clearInterval(timer.num),
+  countSec: 0,
+  combo: 0,
 };
 var list = getLocal('localList') || {
   toDo: [],
@@ -79,6 +81,40 @@ function checkNext() {
   $("#stop_btn").hide();
 };
 
+function countXYR(width, height, num) {
+  let length = (width <= height) ? width / 2 : height / 2;
+  let x = y = length;
+  let outside_r = (width <= height) ? width / 2 : height / 2;
+  let inside_r = outside_r * 0.7; 
+  return {
+    x: x,
+    y: y,
+    r: outside_r,
+    ir: inside_r,
+    ox: x + outside_r * Math.sin(num),
+    oy: y - outside_r * Math.cos(num),
+    ix: x + inside_r * Math.sin(num),
+    iy: y - inside_r * Math.cos(num),
+  };
+};
+
+function drawProgress(num) {
+  let degree = num * 2 * Math.PI;
+  let node = document.getElementById('progress').parentElement;
+  let h = node.clientHeight;
+  let w = node.clientWidth;
+  var c = countXYR(h, w, degree);
+  let mode = (num > 0.5) ? '1' : '0';
+  $('#progress').attr('d',
+    'M ' + c.x + ' ' + '0' + ' ' +
+    'A ' + c.r + ' ' + c.r + ' ' + '0 ' + mode + ' 1 ' + c.ox + ' ' + c.oy + ' ' +
+    'L ' + c.x + ' ' + c.y + ' Z' + ' '
+    + 'M ' + c.x + ' ' + (c.r - c.ir) + ' ' +
+    'A ' + c.ir + ' ' + c.ir + ' ' + '0 ' + mode + ' 1 ' + c.ix + ' ' + c.iy + ' ' +
+    'L ' + c.x + ' ' + c.y + ' Z'
+  );
+};
+
 function finishMission(completed = true) {
   mission.completed = completed;
   completed && (mission.combo += 1);
@@ -114,8 +150,17 @@ function setCountDown(min = 25, sec = 0) {
   timer.sec = sec;
   timer.start = (callback = () => { console.log('No next mission? Really?') }) => {
     timer.num = setInterval(() => {
-      timer.sec -= 1;
-      if (timer.min == 0 && timer.sec == 0) {
+      timer.countSec += 1;
+      drawProgress((Date.now() - mission.startTime) / (mission.minSet * 60000));
+
+      if (timer.countSec === 10) {
+        let min_sec = addZero(timer.min) + ':' + addZero(timer.sec);
+        displayTimer(min_sec);
+        timer.sec -= 1;
+        timer.countSec = 0;
+      };
+
+      if (timer.min == 0 && timer.sec < 0) {
         clearInterval(timer.num);
         callback();
       };
@@ -123,9 +168,7 @@ function setCountDown(min = 25, sec = 0) {
         timer.sec = 59;
         timer.min -= 1;
       };
-      let min_sec = addZero(timer.min) + ':' + addZero(timer.sec);
-      displayTimer(min_sec);
-    }, 1000);
+    }, 100);
   };
   timer.stop = () => clearInterval(timer.num);
 };
