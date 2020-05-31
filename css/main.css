@@ -1,0 +1,28 @@
+body {
+	/* background-color: #EBF2FA; */
+	color: #679436;
+}
+
+.sidebar {
+	position: fixed;
+	top: 70px;
+	left: 0;
+	bottom: 0;
+}
+
+#svg_container {
+	height: 60vmin;
+	width: 60vmin;
+}
+
+#svg_container {
+	position: relative;
+}
+
+#svg_container > svg {
+	width: inherit;
+	height: inherit;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
