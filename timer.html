@@ -17,67 +17,80 @@
 
 	<body>
 		<header>
-			<nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #427aa1;">
+			<nav class="navbar navbar-expand-sm navbar-dark fixed-top" style="background-color: #427aa1;">
 				<a class="navbar-brand" href="#">Tomato Timer</a>
+				
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
+				
 				<div class="collapse navbar-collapse flex-row-reverse" id="navbarSupportedContent">
 					<div class="navbar-nav">
 						<a class="nav-item nav-link " href="#">about</a>
-						<button class="nav-item btn btn-sm btn-outline-light" id="signIn" style="display: inline;">Sign In</button>
-						<button class="nav-item btn btn-sm btn-outline-light" id="signOut" style="display: none;">Sign Out</button>
+						
 					</div>
 				</div>
 			</nav>
 		</header>
 
 		<main>
-			<div class="container-fluid">
+			<div class="container-fluid" style="padding-top: 70px;">
 				<div class="row">
 					<!-- left side -->
-					<div class="col-3">
+					<div class="col-md-3 col-sm-4 rounded-sm pt-3 bg-light">
 						<!-- clock -->
 						<div class="clock">
 							<div id="now">現在時間</div>
-							<div id="digital_clock" class="clock"></div>
+							<h3 id="digital_clock" class="clock"></h3>
 						</div>
-						<!-- mission input -->
-						<hr>
 						<div>
+							<h5 class="mr-3 d-inline">Repeat</h5>
+							<div class="custom-switch d-inline">
+								<input type="checkbox" class="custom-control-input" id="repeat_switch">
+								<label class="custom-control-label" for="repeat_switch"></label>
+							</div>
+						</div>
+						<!-- mission_list -->
+						<div class="h-50 scroller overflow-auto" id="mission_list">
+						</div>
+						<hr>
+						<!-- mission input -->
+						<div class="align-bottom">
 							<label for="mission_input_btn">Input your mission title :</label>
-							<input id="mission_input_btn" type="text">
-							<button id="delete_btn" disabled="disabled">Delete Last Mission</button>
+							<input class="w-75 align-bottom" id="mission_input_btn" type="text">
 						</div>
 
-						<!-- mission_list -->
-						<div id="mission_list">
-						</div>
 					</div>
 
 					<!-- middle -->
-					<div class="col">
-						<!-- tomato clock -->
-						<div class="mission">
-							<span id="current_mission"></span>
-						</div>
-						<div class="tomato clock">
-							<div id="tomato_clock" class="clock">init tomato clock</div>
-						</div>
-						<hr>
+					<div class="col-md-9 col-sm-8 ml-auto text-center">
 						<div>
-							<button id="start_btn">start_btn</button>
-							<button id="repeat_btn">repeat_btn</button>
-							<button id="stop_btn">stop_btn</button>
+							<span class="h1" id="current_mission">some mission here</span>
 						</div>
-						<!-- stamp button -->
+						<div class="mx-auto row align-items-center" id="svg_container">
+							<h1 class="col" id="tomato_clock" >--:--</h1>
+							<svg>
+								<path id="progress" fill-rule="evenodd" d="" />
+								<circle cx="50%" cy="50%" r="47.5%" stroke="black" stroke-width="1" fill="none" />
+								<circle cx="50%" cy="50%" r="33.25%" stroke="black" stroke-width="1" fill="none" />
+							</svg>
+						</div>
+
+						<div class="d-inline">
+							<button class="btn btn-dark" id="start_btn">start_btn</button>
+							<button class="btn btn-dark" id="stop_btn" style="display: none;">stop_btn</button>
+						</div>
+						
 						<hr>
 						<div class="stamp button">
+							<button class="btn btn-dark" id="signIn">Sign In</button>
+							<button class="btn btn-dark" id="signOut">Sign Out</button>
 							<input id="recodeText" type="text">
-							<button id="stamp_start" style="display: inline;">stamp_start</button>
-							<button id="stamp_end" style="display: none;">stamp_end</button>
-							<button id='sheet_init'>sheet_init</button>
+							<button class="btn btn-dark" id="stamp_start" style="display: inline;">stamp_start</button>
+							<button class="btn btn-dark" id="stamp_end" style="display: none;">stamp_end</button>
+							<button class="btn btn-dark" id='sheet_init'>sheet_init</button>
 						</div>
+						<hr>
 					</div>
 				</div>
 			</div>
@@ -85,8 +98,8 @@
 
 
 		<!-- google api -->
-		<!-- <script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()"
-		onreadystatechange="if (this.readyState === 'complete') this.onload()"></script> -->
+		<script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()"
+		onreadystatechange="if (this.readyState === 'complete') this.onload()"></script>
 
 		<!-- jquery -->
 		<script src="js\jquery-3.5.1.js"></script>
@@ -100,11 +113,9 @@
 		<script src="js/cellControl.js"></script>
 		<script src="js/baseData.js"></script>
 		<script src="js/timer.js"></script>
-		<script src="js/active.js"></script>
 		<script>
 			window.onload = loadLocal;
 		</script>
-		
 	</body>
 
 </html>
