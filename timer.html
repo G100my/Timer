@@ -17,74 +17,76 @@
 
 	<body>
 		<header>
-			<nav class="navbar navbar-expand-sm navbar-dark fixed-top" style="background-color: #427aa1;">
+			<nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #427aa1;">
 
 				<button class="btn btn-sm btn-outline-light" type="button" id="sidebarCollapse">test</button>
 
 				<a class="navbar-brand" href="#">Tomato Timer</a>
 				
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<button class="btn btn-sm" type="button" data-toggle="collapse"
+					data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
 				
 				<div class="collapse navbar-collapse flex-row-reverse" id="navbarSupportedContent">
 					<div class="navbar-nav">
 						<a class="nav-item nav-link " href="#">about</a>
-						
 					</div>
 				</div>
+
 			</nav>
 		</header>
 
 		<main>
-			<div class="container-fluid" style="padding-top: 70px;">
+			<div class="container-fluid">
 				<div class="row">
 					<!-- left side -->
 					<div class="col-md-3 col-sm-4 pt-2 bg-light" id="sidebar">
 			
 						<!-- clock -->
-						<div class="clock">
-							<div id="now">現在時間</div>
-							<h3 id="digital_clock" class="clock"></h3>
-						</div>
 						<div>
-							<h5 class="mr-3 d-inline">Repeat</h5>
-							<div class="custom-switch d-inline">
-								<input type="checkbox" class="custom-control-input" id="repeat_switch">
-								<label class="custom-control-label" for="repeat_switch"></label>
+							<div class="text-monospace">Now: <span id="digital_clock"></span></div>
+							
+							<div>
+								<h5 class="mr-3 d-inline">Repeat</h5>
+								<div class="custom-switch d-inline">
+									<input type="checkbox" class="custom-control-input" id="repeat_switch">
+									<label class="custom-control-label" for="repeat_switch"></label>
+								</div>
 							</div>
 						</div>
+			
 						<!-- mission_list -->
-						<div class="h-50 scroller overflow-auto" id="mission_list">
+						<div class="border h-75 scroller overflow-auto" id="mission_list">
 						</div>
 						<hr>
+			
 						<!-- mission input -->
-						<div class="align-bottom">
+						<div>
 							<label for="mission_input_btn">Input your mission title :</label>
-							<input class="w-75 align-bottom" id="mission_input_btn" type="text">
+							<input class="w-75" id="mission_input_btn" type="text">
 						</div>
-
 					</div>
 
 					<!-- middle -->
-					<div class="col-md-9 col-sm-8 ml-auto text-center">
+					<div class="col-md-9 col-sm-8 ml-auto text-center" id="main_container">
 						<div>
 							<span class="h1" id="current_mission">some mission here</span>
 						</div>
 						<div class="mx-auto row align-items-center" id="svg_container">
-							<h1 class="col" id="tomato_clock" >--:--</h1>
+							<h1 class="col" id="tomato_clock">--:--</h1>
 							<svg>
 								<path id="progress" fill-rule="evenodd" d="" />
 								<circle cx="50%" cy="50%" r="47.5%" stroke="black" stroke-width="1" fill="none" />
 								<circle cx="50%" cy="50%" r="33.25%" stroke="black" stroke-width="1" fill="none" />
 							</svg>
 						</div>
-
+					
 						<div class="d-inline">
 							<button class="btn btn-dark" id="start_btn">start_btn</button>
 							<button class="btn btn-dark" id="stop_btn" style="display: none;">stop_btn</button>
 						</div>
-						
+					
 						<hr>
 						<div class="stamp button">
 							<button class="btn btn-dark" id="signIn">Sign In</button>
@@ -102,8 +104,8 @@
 
 
 		<!-- google api -->
-		<script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()"
-		onreadystatechange="if (this.readyState === 'complete') this.onload()"></script>
+		<!-- <script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()"
+		onreadystatechange="if (this.readyState === 'complete') this.onload()"></script> -->
 
 		<!-- jquery -->
 		<script src="js\jquery-3.5.1.js"></script>

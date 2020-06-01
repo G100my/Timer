@@ -1,11 +1,10 @@
 body {
-	/* background-color: #EBF2FA; */
 	color: #679436;
 }
 
 #svg_container {
-	height: 60vmin;
-	width: 60vmin;
+	height: 63vmin;
+	width: 63vmin;
 }
 
 #svg_container {
@@ -18,6 +17,7 @@ body {
 	position: absolute;
 	left: 0;
 	top: 0;
+}
 
 @media (max-width: 575.98px) {
 	#sidebar {
@@ -32,7 +32,7 @@ body {
 		margin-left: 0;
 		transition: all 0.3s;
 	}
-	#main-container {
+	#main_container {
 		position: fixed;
 	}
 	#svg_container {
