@@ -213,3 +213,6 @@ $("#stop_btn").click(() => {
   // re
 
 });
+$('#sidebarCollapse').on('click', function () {
+  $('#sidebar').toggleClass('active');
+});
