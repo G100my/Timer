@@ -44,7 +44,7 @@ var timer = {
 				countSec = 0;
 			};
 			
-			if (timer.min == 0 && timer.sec < 0) {
+			if (timer.min <= 0 && timer.sec < 0) {
 				clearInterval(timer.num);
 				callback();
 			};
@@ -53,7 +53,11 @@ var timer = {
 				timer.min -= 1;
 			};
 			let n = (Date.now() - timer.startTime) / (timer.minSet);
-			drawProgress((n > 1) ? 1 : n);
+
+			if (n < 0.0005) { n = 0 }
+			else if (n > 1) { n = 1 };
+
+			drawProgress(n);
 			countSec += 1;
 		}, 100);
 	},
