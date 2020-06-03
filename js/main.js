@@ -17,22 +17,6 @@ let minSet = 1; //fix
 let input = document.getElementById("mission_input_btn");
 let current_mission_display = document.getElementById("current_mission");
 
-// =================== normal clock
-
-var clockTime;
-var clock;
-setInterval(() => {
-  clock = new Date();
-  let h = clock.getHours();
-  let m = clock.getMinutes();
-  let s = clock.getSeconds();
-
-  h = (h < 10) ? "0" + h : h;
-  m = (m < 10) ? "0" + m : m;
-  clockTime = h + ' : ' + m;
-
-  $("#digital_clock").text(clockTime);
-}, 1000);
 
 // ===================
 
@@ -157,19 +141,19 @@ function displayMissionTitle(msg) {
   document.getElementById("current_mission").innerText = msg;
 };
 
-$('#sheet_init').click(function () {
+$('#sheet_init').click(() => {
   console.log('click init');
   initSheet(timerSheetID);
 });
 
-$('#stamp_start').click(function () {
+$('#stamp_start').click(() => {
   stampState = !stampState;
   startStamp();
   $('#stamp_start').hide();
   $('#stamp_end').show();
 });
 
-$('#stamp_end').click(function () {
+$('#stamp_end').click(() => {
   stampState = !stampState;
   endStamp();
   $('#stamp_end').hide();
@@ -222,6 +206,6 @@ $("#stop_btn").click(() => {
   // re
 
 });
-$('#sidebarCollapse').on('click', function () {
+$('#sidebarCollapse').on('click', () => {
   $('#sidebar').toggleClass('active');
 });

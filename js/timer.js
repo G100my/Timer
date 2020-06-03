@@ -1,3 +1,21 @@
+// =================== normal clock
+
+var clockTime;
+var clock;
+setInterval(() => {
+	clock = new Date();
+	let h = clock.getHours();
+	let m = clock.getMinutes();
+	let s = clock.getSeconds();
+
+	h = (h < 10) ? "0" + h : h;
+	m = (m < 10) ? "0" + m : m;
+	colon = (s % 2 == 0) ? " " : ":";
+	clockTime = h + colon + m;
+
+	$("#digital_clock").text(clockTime);
+}, 1000);
+
 // 當前計數器狀態，如果是當前事件循環的狀況、則重新設定歸零再次計數、mission資料則部份改變不重置
 var timer = {
 	min: 0,
