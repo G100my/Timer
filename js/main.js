@@ -14,7 +14,7 @@ var mission = {
   completed: false,
 };
 let minSet = 1; //fix
-let input = document.getElementById("mission_input_btn");
+let input = document.getElementById("mission_input");
 let current_mission_display = document.getElementById("current_mission");
 
 
@@ -160,12 +160,12 @@ $('#stamp_end').click(() => {
   $('#stamp_start').show();
 });
 
-$('#add_button').click(() => {
+$('#mission_input_btn').click(() => {
   addToList(input.value);
   input.value = '';
 })
 
-$("#mission_input_btn").keyup((event) => {
+$("#mission_input").keyup((event) => {
   //enter鍵：
   // 如果不曾輸入過文字：null；
   // 如果曾經送出過文字、但目前留空：上次輸入的文字；
