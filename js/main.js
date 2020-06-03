@@ -36,13 +36,19 @@ setInterval(() => {
 
 // ===================
 
-function addToList(textValue) {
+function displayList(id, string) {
+  $("#mission_list").append(
+    '<div id="' + id + '" class="missions"><button class="icon_button" type="button" onclick="deleteMission(' + id + ')"><svg class="bi bi-trash-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z" /></svg ></button>' + string + '</div>');
+}
+
+function addToList(msg) {
+  let currenValue = (msg === '') ? ((list.lastTitle === undefined) ? '' : list.lastTitle) : msg;
+  list.lastTitle = currenValue;
   console.log('addToList: ');
   let id = Date.now();
-  list.toDo.push({ id: id, name: textValue });
+  list.toDo.push({ id: id, name: msg });
   setLocal('localList', list);
-  $("#mission_list").append(
-    '<p id="' + id + '" class="missions">' + textValue + "<button onclick='deleteMission(" + id + ")'>delete</button></p>");
+  displayList(id, currenValue);
 };
 
 function deleteMission(id) {
@@ -112,8 +118,7 @@ function loadLocal() {
     console.log('load local list');
     console.log(list);
     list.toDo.forEach(e => {
-      $("#mission_list").append(
-        '<p id="' + e.id + '" class="missions">' + e.name + "<button onclick='deleteMission(" + e.id + ")'>delete</button></p>");
+    displayList(e.id, e.name);
     });
   };
   if (mission.startTime !== undefined && !mission.completed) {
@@ -171,14 +176,18 @@ $('#stamp_end').click(function () {
   $('#stamp_start').show();
 });
 
+$('#add_button').click(() => {
+  addToList(input.value);
+  input.value = '';
+})
+
 $("#mission_input_btn").keyup((event) => {
   //enter鍵：
   // 如果不曾輸入過文字：null；
   // 如果曾經送出過文字、但目前留空：上次輸入的文字；
-  let currenValue = (input.value === '') ? ((list.lastTitle === undefined) ? '' : list.lastTitle) : input.value;
-  if (event.which === 13 && (currenValue !== '' || list.lastTitle !== '')) {
-    list.lastTitle = currenValue;
-    addToList(currenValue);
+  
+  if (event.which === 13 && (input.value !== '' || list.lastTitle !== '')) {
+    addToList(input.value);
     input.value = '';
   };
   //esc鍵：清除目前所鍵入的文字
