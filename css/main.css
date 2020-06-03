@@ -19,6 +19,15 @@ body {
 	top: 0;
 }
 
+
+.navbar-botton {
+	background-color: unset;
+	font-size: 35px;
+	border: 0px;
+	color: #FAF9F9;
+	display: none;
+}
+
 @media (max-width: 575.98px) {
 	#sidebar {
 		margin-left: -100%;
