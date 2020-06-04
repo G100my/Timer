@@ -52,21 +52,12 @@ var timer = {
 				timer.sec = 59;
 				timer.min -= 1;
 			};
-			let n = (Date.now() - timer.startTime) / (timer.minSet);
 
-			if (n < 0.0005) { n = 0 }
-			else if (n > 1) { n = 1 };
-
-			drawProgress(n);
+			drawProgress((Date.now() - timer.startTime) / (timer.minSet));
 			countSec += 1;
 		}, 100);
 	},
 };
-
-// FIXME
-var node = document.getElementById('progress').parentElement;
-var h = node.clientHeight;
-var w = node.clientWidth;
 
 window.onresize = () => {
 	node = document.getElementById('progress').parentElement;
@@ -82,6 +73,11 @@ function displayTime(m = timer.min, s = timer.sec) {
 function addZero(num) {
 	return (num < 10) ? '0' + num : num;
 };
+
+// FIXME
+var node = document.getElementById('progress').parentElement;
+var h = node.clientHeight;
+var w = node.clientWidth;
 
 function countXYR(width, height, num) {
 	let x = y = (width <= height) ? width / 2 : height / 2;
@@ -99,10 +95,12 @@ function countXYR(width, height, num) {
 	};
 };
 
-function drawProgress(num) {
-	let degree = num * 2 * Math.PI;
+function drawProgress(percent) {
+	if (percent < 0.0005) { percent = 0 }
+	else if (percent >= 1) { percent = 0.9999 };
+	let degree = percent * 2 * Math.PI;
 	var c = countXYR(h, w, degree);
-	let mode = (num > 0.5) ? '1' : '0';
+	let mode = (percent > 0.5) ? '1' : '0';
 	$('#progress').attr('d',
 		'M ' + c.x + ' ' + (c.y - c.or) + ' ' +
 		'A ' + c.or + ' ' + c.or + ' ' + '0 ' + mode + ' 1 ' + c.ox + ' ' + c.oy + ' ' +
@@ -114,3 +112,28 @@ function drawProgress(num) {
 	console.log(c);
 	console.log('num ' + num);
 };
+let lastAngle = 0;
+function chooseTimeNum(target = 0.9, start = lastAngle) {
+	const times = 20;
+	let step = (target - start) / times;
+	console.log('step')
+	console.log(step)
+	console.log('target')
+	console.log(target)
+	console.log('start')
+	console.log(start)
+	if (step == 0) { return };
+	for (let i = 0; i < times; i++) {
+		setTimeout(() => {
+			drawProgress(start + step * i);
+		}, 10 * i);
+	};
+	lastAngle = target;
+};
+
+$('p').each(function (e) {
+	$(this).click(() => {
+		minSet = (e + 1) * 5;
+		chooseTimeNum(minSet / 60);
+	});
+})

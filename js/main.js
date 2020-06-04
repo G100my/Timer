@@ -13,7 +13,7 @@ var mission = {
   minSet: undefined,
   completed: false,
 };
-let minSet = 1; //fix
+var minSet = 25;
 let input = document.getElementById("mission_input");
 let current_mission_display = document.getElementById("current_mission");
 
@@ -75,10 +75,10 @@ function finishMission(completed = true) {
   setLocal('localList', list);
 };
 
-function setNextNameMin(minSet = 25) {
-  console.log('setNextNameMin ' + minSet);
-  mission.minSet = minSet;
-  timer.set(minSet);
+function setNextNameMin(min = 25) {
+  console.log('setNextNameMin ' + min);
+  mission.minSet = min;
+  timer.set(min);
   if (list.toDo.length > 0) {
     let toDo = list.toDo.shift();
     $(".missions:first").remove();
@@ -183,6 +183,7 @@ $("#start_btn").click(() => {
   setNextNameMin();
   mission.startTime = Date.now();
   mission.minSet = minSet;
+  timer.set(mission.minSet);
   timer.start(() => {
     finishMission();
     setSmokeCall();
