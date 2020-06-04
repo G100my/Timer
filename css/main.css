@@ -129,4 +129,46 @@ header button {
 .missions .icon_button svg {
 	max-width: 25px;
 }
+
+/* timer */
+
+#tomato_clock {
+	font-size: 4rem;
+	font-weight: 700;
+}
+
+#min_settin_btn_group {
+	margin: 0;
+	top: -2.5%;
+	left: -2.5%;
+	height: 105%;
+	width: 105%;
+}
+
+#min_settin_btn_group div {
+	margin: 0;
+	padding: 0;
+	line-height: 0;
+	position: absolute;
+	height: 1px;
+	width: 1px;
+}
+
+p {
+	color: #489fb5;
+	font-size: 3vmin;
+	font-weight: 700;
+	position: relative;
+	left: -2.5vmin;
+	top: -2.5vmin;
+	z-index: 50;
+	height: 5vmin;
+	width: 5vmin;
+	line-height: 4.5vmin;
+}
+
+p:hover {
+	border: 1px solid #FAF9F9;
+	border-radius: 50%;
+	background-color: #FAF9F9;
 }
