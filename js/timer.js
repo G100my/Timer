@@ -178,6 +178,14 @@ function numberDisappear() {
 	})
 };
 
+function numberAppear() {
+	let step = 0;
+	let group = $('#min_settin_btn_group');
+	group.css({ 'opacity': '0.0' }).show();
 
-
+	let t = setInterval(() => {
+		if (step >= 1) clearInterval(t);
+		group.css('opacity', step)
+		step += 0.05;
+	}, 50);
 };
