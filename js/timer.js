@@ -136,4 +136,48 @@ $('p').each(function (e) {
 		minSet = (e + 1) * 5;
 		chooseTimeNum(minSet / 60);
 	});
-})
+});
+
+function numberDisappear() {
+	let x = document.getElementById('min_settin_btn_group').clientWidth / 2;
+	let y = document.getElementById('min_settin_btn_group').clientHeight / 2;
+	// 還不明白為什麼 $('p').each(()=>{$(this)}) 裡面的 $(this) 會指向 window .......
+	$('#min_settin_btn_group div').each(function () {
+		let targetX = x - $(this).position().left;
+		let targetY = y - $(this).position().top;
+		let stepX = (targetX) / 150;
+		let stepY = (targetY) / 200;
+		let step = 0;
+		let t = setInterval(() => {
+			if (step >= 100) clearInterval(t);
+
+			if (step <= 5) {
+				let scale = (1 + step * 0.025);
+				$(this).css('transform', 'matrix(' + scale + ', 0, 0, ' + scale + ', ' + (-stepX * step) + ', ' + (-stepY * step) + ')');
+				step += 0.1;
+			}
+
+			if (step > 5 && step < 20) {
+				step += 1;
+			}
+
+			if (step > 20) {
+				let scale = (1 - step * 0.01);
+				scale = (scale < 0.1) ? 0 : scale;
+				$(this).css('transform', 'matrix(' + scale + ', 0, 0, ' + scale + ', ' + stepX * step + ', ' + stepY * step + ')');
+				step += 5;
+
+				if (scale === 0) {
+					$('#min_settin_btn_group').hide();
+					console.log($(this))
+					clearInterval(t);
+					$(this).css('transform', "none");
+				};
+			}
+		}, 10);
+	})
+};
+
+
+
+};
