@@ -21,6 +21,7 @@ var timer = {
 	min: 0,
 	sec: 0,
 	num: 0,
+	repeat: false,
 	// countSec: 10,
 	combo: 0,
 	startTime: 0,
@@ -139,10 +140,10 @@ $('p').each(function (e) {
 });
 
 function numberDisappear() {
-	let x = document.getElementById('min_settin_btn_group').clientWidth / 2;
-	let y = document.getElementById('min_settin_btn_group').clientHeight / 2;
+	let x = document.getElementById('number_group').clientWidth / 2;
+	let y = document.getElementById('number_group').clientHeight / 2;
 	// 還不明白為什麼 $('p').each(()=>{$(this)}) 裡面的 $(this) 會指向 window .......
-	$('#min_settin_btn_group div').each(function () {
+	$('#number_group div').each(function () {
 		let targetX = x - $(this).position().left;
 		let targetY = y - $(this).position().top;
 		let stepX = (targetX) / 150;
@@ -168,7 +169,7 @@ function numberDisappear() {
 				step += 5;
 
 				if (scale === 0) {
-					$('#min_settin_btn_group').hide();
+					$('#number_group').hide();
 					console.log($(this))
 					clearInterval(t);
 					$(this).css('transform', "none");
@@ -180,7 +181,7 @@ function numberDisappear() {
 
 function numberAppear() {
 	let step = 0;
-	let group = $('#min_settin_btn_group');
+	let group = $('#number_group');
 	group.css({ 'opacity': '0.0' }).show();
 
 	let t = setInterval(() => {
@@ -189,3 +190,9 @@ function numberAppear() {
 		step += 0.05;
 	}, 50);
 };
+
+$('#repeat_switch').click(() => {
+	timer.repeat = !timer.repeat;
+	$('#repeat_switch').toggleClass('repeat_switch');
+	console.log(timer.repeat);
+})
