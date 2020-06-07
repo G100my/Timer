@@ -113,7 +113,7 @@ function drawProgress(percent) {
 	console.log('num ' + num);
 };
 let lastAngle = 0;
-function chooseTimeNum(target = 0.9, start = lastAngle) {
+function chooseTimeNum(target, start = lastAngle) {
 	const times = 20;
 	let step = (target - start) / times;
 	console.log('step')
@@ -123,7 +123,7 @@ function chooseTimeNum(target = 0.9, start = lastAngle) {
 	console.log('start')
 	console.log(start)
 	if (step == 0) { return };
-	for (let i = 0; i < times; i++) {
+	for (let i = 0; i <= times; i++) {
 		setTimeout(() => {
 			drawProgress(start + step * i);
 		}, 10 * i);
