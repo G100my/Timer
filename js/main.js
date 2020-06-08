@@ -28,17 +28,18 @@ function displayList(id, string) {
 function addToList(msg) {
   let currenValue = (msg === '') ? ((list.lastTitle === undefined) ? '' : list.lastTitle) : msg;
   list.lastTitle = currenValue;
-  console.log('addToList: ');
   let id = Date.now();
-  list.toDo.push({ id: id, name: msg });
+  list.toDo.push( currenValue );
   setLocal('localList', list);
   displayList(id, currenValue);
 };
 
 function deleteMission(id) {
   console.log('deleteMission');
-  list.toDo.pop();
-  $("#" + id).remove();
+  let target = $("#" + id);
+  let index = list.toDo.findIndex(t => t === target.text());
+  list.toDo.splice(index, 1);
+  target.remove();
   setLocal('localList', list);
 };
 
