@@ -1,10 +1,11 @@
 let stampState = true;
+let defaultTitle = 'Do your best';
 
 // 紀錄接下來的事件、已經完成準備上傳到 sheet 的事件
 var list = getLocal('localList') || {
   toDo: [],
-  complete: [],
-  lastTitle: ''
+  completed: [],
+  lastTitle: defaultTitle
 };
 // 紀錄當前工作事件資料，每次完成、中止都會記錄到 list.complete
 var mission = {
@@ -26,7 +27,7 @@ function displayList(id, string) {
 }
 
 function addToList(msg) {
-  let currenValue = (msg === '') ? ((list.lastTitle === undefined) ? '' : list.lastTitle) : msg;
+  let currenValue = (msg === '') ? list.lastTitle : msg;
   list.lastTitle = currenValue;
   let id = Date.now();
   list.toDo.push( currenValue );

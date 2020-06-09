@@ -5,6 +5,7 @@
 	--white: #FAF9F9;
 	--dark-green: #16697a;
 	--medium-green: #489fb5d2;
+	--orange: #ffa62b;
 }
 
 /* || global */
@@ -55,7 +56,6 @@ header button {
 	border: 2px var(--medium-green) solid;
 	border-radius: 10px;
 	margin: 15px;
-	padding: 2px 15px;
 }
 
 @media (max-width: 575.98px) {
@@ -92,7 +92,7 @@ header button {
 #digital_clock {
 	font-size: 5vmin;
 	background-color: var(--dark-green);
-	color: #ffa62b;
+	color: var(--orange);
 }
 
 /* || mission list */
@@ -102,18 +102,24 @@ header button {
 	min-height: 55vh;
 }
 
+#mission_list div:first-child {
+	color: var(--orange);
+}
+
 .missions {
 	position: relative;
-	border-bottom: 1px solid;
+	border-bottom: 1px var(--white) solid;
 	word-wrap: break-word;
 	font-weight: bold;
 	vertical-align: middle;
-	padding: 3% 0;
+	margin: 5% 15px;
 }
 
 .missions .icon_button {
 	float: right;
 	font-size: initial;
+	line-height: inherit;
+	color: var(--white);
 }
 
 .missions .icon_button svg {
