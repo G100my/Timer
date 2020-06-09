@@ -9,14 +9,15 @@ var list = getLocal('localList') || {
 };
 // 紀錄當前工作事件資料，每次完成、中止都會記錄到 list.complete
 var mission = {
-  startTime: undefined,
-  name: '',
-  minSet: undefined,
+  combo: 0,
+  repeat: false,
+
   completed: false,
+  name: defaultTitle,
+  minSet: 25,
+  startTime: 0
 };
-var minSet = 25;
 let input = document.getElementById("mission_input");
-let current_mission_display = document.getElementById("current_mission");
 
 
 // ===================
@@ -46,25 +47,25 @@ function deleteMission(id) {
 
 // ===================
 
-function checkNext() {
-  console.log('checkout');
-  if (timer.combo >= 4) {
-    console.log('check combo-4');
-    setSmokeCall(1, 0);
+function checkSmokeCall() {
+  if (mission.combo >= 4) {
+    mission.combo = 0;
+    timer.set(15);
     displayMissionTitle('take a walk!');
-    return;
-  };
-  if (document.getElementById('repeat_switch').checked) {
-    console.log('check repeat');
-    timer.set(mission.minSet);
-    mission.completed = false;
-    timer.start(() => {
-      finishMission();
-      setSmokeCall();
-    });
-    return;
-  };
+  } else {
+    mission.combo += 1;
+    timer.set(5);
+    displayMissionTitle('take a breath');
+  }
+  timer.start(checkNext);
+};
 
+function checkNext() {
+  if (!mission.repeat) {
+    let next = $("#mission_list div:first");
+    mission.name = next.text();
+  };
+  
   $("#start_btn").show();
   $("#stop_btn").hide();
 };
