@@ -78,19 +78,6 @@ function finishMission(completed = true) {
   setLocal('localList', list);
 };
 
-function setNextNameMin(min = 25) {
-  console.log('setNextNameMin ' + min);
-  mission.minSet = min;
-  timer.set(min);
-  if (list.toDo.length > 0) {
-    let toDo = list.toDo.shift();
-    $(".missions:first").remove();
-    mission.name = toDo.name;
-  } else {
-    mission.name = 'Do your best';
-  };
-  displayMissionTitle(mission.name);
-};
 
 function setSmokeCall(min = 5) {
   console.log('setSmokeCall: ' + min + ' ' + sec);
@@ -183,14 +170,17 @@ $("#mission_input").keyup((event) => {
 
 // 按下後與 stop 互換顯示狀態，目標: 不會有還沒中止就能再按一次開始，
 $("#start_btn").click(() => {
-  setNextNameMin();
+  if (!mission.repeat && list.toDo.length > 0) {
+    $(".missions:first").remove();
+    mission.name = list.toDo.shift();
+  };
+
   mission.startTime = Date.now();
-  mission.minSet = minSet;
+
   timer.set(mission.minSet);
   timer.start(() => {
-    finishMission();
-    setSmokeCall();
-    displayMissionTitle('SmokeCall');
+    recordMission();
+    checkSmokeCall();
   });
   setLocal('localMission', mission);
   setLocal('localList', list);
