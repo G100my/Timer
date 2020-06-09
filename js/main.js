@@ -88,8 +88,10 @@ function loadLocal() {
   if (list.toDo.length > 0) {
     console.log('load local list');
     console.log(list);
+    let index = 0;
     list.toDo.forEach(e => {
-    displayList(e.id, e.name);
+      displayList(index, e);
+      index += 1;
     });
   };
   if (mission.startTime !== undefined && !mission.completed) {
