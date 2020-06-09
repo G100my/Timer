@@ -70,19 +70,16 @@ function checkNext() {
   $("#stop_btn").hide();
 };
 
-function finishMission(completed = true) {
-  console.log('finishMission() ' + completed)
-  mission.completed = completed;
-  list.complete.push(mission);
-  if (completed) { timer.combo += 1; };
+// 當前 mission 複製到 list.complete
+function recordMission(isCompleted = true) {
+  list.completed.push({
+    title: mission.name,
+    startTime: mission.startTime,
+    timeSet: mission.minSet,
+    completed: (isCompleted) ? mission.minSet : mission.minSet - timer.min -1
+  });
+
   setLocal('localList', list);
-};
-
-
-function setSmokeCall(min = 5) {
-  console.log('setSmokeCall: ' + min + ' ' + sec);
-  timer.set(min);
-  timer.start(checkNext);
 };
 
 // ===================
@@ -190,15 +187,14 @@ $("#start_btn").click(() => {
 
 $("#stop_btn").click(() => {
   timer.stop();
-  finishMission(false);
-  displayMissionTitle('stop');
+  recordMission(false);
 
-  checkNext();
-  // reset SVG
+  drawProgress(0);
   displayMissionTitle('manual stop');
   document.getElementById("tomato_clock").innerText = '--:--';
-  // re
 
+  $("#start_btn").show();
+  $("#stop_btn").hide();
 });
 $('#sidebarCollapse').on('click', () => {
   $('#sidebar').toggleClass('active');
