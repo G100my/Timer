@@ -31,7 +31,7 @@ function addToList(msg) {
   let currenValue = (msg === '') ? list.lastTitle : msg;
   list.lastTitle = currenValue;
   let id = Date.now();
-  list.toDo.push( currenValue );
+  list.toDo.push(currenValue);
   setLocal('localList', list);
   displayList(id, currenValue);
 };
@@ -100,7 +100,7 @@ function loadLocal() {
       let m = parseInt((t) / 60);
       let s = parseInt(t % 60)
       timer.set(m, s);
-      timer.start(setSmokeCall);
+      timer.start(checkSmokeCall);
       displayMissionTitle(mission.name);
 
       $("#start_btn").hide();
@@ -156,7 +156,7 @@ $("#mission_input").keyup((event) => {
   //enter鍵：
   // 如果不曾輸入過文字：null；
   // 如果曾經送出過文字、但目前留空：上次輸入的文字；
-  
+
   if (event.which === 13 && (input.value !== '' || list.lastTitle !== '')) {
     addToList(input.value);
     input.value = '';
@@ -179,6 +179,7 @@ $("#start_btn").click(() => {
     recordMission();
     checkSmokeCall();
   });
+
   setLocal('localMission', mission);
   setLocal('localList', list);
   $("#start_btn").hide();
@@ -199,3 +200,69 @@ $("#stop_btn").click(() => {
 $('#sidebarCollapse').on('click', () => {
   $('#sidebar').toggleClass('active');
 });
+
+
+$('p').each(function (e) {
+  $(this).click(() => {
+    mission.minSet = (e + 1) * 5;
+    chooseTimeNum(mission.minSet / 60);
+  });
+});
+
+function numberDisappear() {
+  let x = document.getElementById('number_group').clientWidth / 2;
+  let y = document.getElementById('number_group').clientHeight / 2;
+  // 還不明白為什麼 $('p').each(()=>{$(this)}) 裡面的 $(this) 會指向 window .......
+  $('#number_group div').each(function () {
+    let targetX = x - $(this).position().left;
+    let targetY = y - $(this).position().top;
+    let stepX = (targetX) / 150;
+    let stepY = (targetY) / 200;
+    let step = 0;
+    let t = setInterval(() => {
+      if (step >= 100) clearInterval(t);
+
+      if (step <= 5) {
+        let scale = (1 + step * 0.025);
+        $(this).css('transform', 'matrix(' + scale + ', 0, 0, ' + scale + ', ' + (-stepX * step) + ', ' + (-stepY * step) + ')');
+        step += 0.1;
+      }
+
+      if (step > 5 && step < 20) {
+        step += 1;
+      }
+
+      if (step > 20) {
+        let scale = (1 - step * 0.01);
+        scale = (scale < 0.1) ? 0 : scale;
+        $(this).css('transform', 'matrix(' + scale + ', 0, 0, ' + scale + ', ' + stepX * step + ', ' + stepY * step + ')');
+        step += 5;
+
+        if (scale === 0) {
+          $('#number_group').hide();
+          console.log($(this))
+          clearInterval(t);
+          $(this).css('transform', "none");
+        };
+      }
+    }, 10);
+  })
+};
+
+function numberAppear() {
+  let step = 0;
+  let group = $('#number_group');
+  group.css({ 'opacity': '0.0' }).show();
+
+  let t = setInterval(() => {
+    if (step >= 1) clearInterval(t);
+    group.css('opacity', step)
+    step += 0.05;
+  }, 50);
+};
+
+$('#repeat_switch').click(() => {
+  mission.repeat = !mission.repeat;
+  $('#repeat_switch').toggleClass('repeat_switch');
+  console.log(mission.repeat);
+})
