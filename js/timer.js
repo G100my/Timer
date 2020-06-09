@@ -20,42 +20,41 @@ setInterval(() => {
 var timer = {
 	min: 0,
 	sec: 0,
-	num: 0,
-	repeat: false,
-	// countSec: 10,
-	combo: 0,
-	startTime: 0,
-	set: (min, sec = 0) => {
-		timer.min = min;
-		timer.sec = sec;
-		timer.minSet = min * 60000 + sec * 1000;
+	intervalID: 0,
+	timeSet: 0,
+	svgAngle: 0,
+	set: function(min, sec = 0, title = mission.name) {
+		this.min = min;
+		this.sec = sec;
+		this.timeSet = min * 60000 + sec * 1000;
+		this.startTime = Date.now();
+		this.svgAngle = 0;
 		displayTime();
+		displayMissionTitle(title);
 	},
-	stop: () => { clearInterval(timer.num); },
-	start: (callback = () => { console.log('No next mission? Really?') }) => {
+	stop: () => { clearInterval(timer.intervalID); },
+	start: function(callback = () => { console.log('No next mission? Really?') }) {
 		let countSec = 10;
-		timer.startTime = Date.now();
-		timer.num = setInterval(() => {
-			console.log('startime ' + timer.startTime);
-			console.log('timer.minset ' + timer.minSet);
-			console.log(countSec);
+		console.log(this)
+		this.intervalID = setInterval(() => {
 			if (countSec === 10) {
 				displayTime();
-				timer.sec -= 1;
+				this.sec -= 1;
 				countSec = 0;
 			};
-			
-			if (timer.min <= 0 && timer.sec < 0) {
-				clearInterval(timer.num);
+
+			if (this.min <= 0 && this.sec < 0) {
+				clearInterval(this.intervalID);
 				callback();
 			};
-			if (timer.sec < 0) {
-				timer.sec = 59;
-				timer.min -= 1;
+			if (this.sec < 0) {
+				this.sec = 59;
+				this.min -= 1;
 			};
 
-			drawProgress((Date.now() - timer.startTime) / (timer.minSet));
 			countSec += 1;
+			this.svgAngle += (100 / this.timeSet);
+			drawProgress(this.svgAngle);
 		}, 100);
 	},
 };
