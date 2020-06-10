@@ -55,7 +55,7 @@
 						<!-- mission_list -->
 						<div class="overflow-auto" id="mission_list">
 						</div>
-			
+
 						<!-- mission input -->
 						<div class="align-items-center d-flex pl-2 pr-1 py-2">
 							<input type="text" class="form-control" id="mission_input" placeholder="set a target">
@@ -94,7 +94,8 @@
 								<div role="button" style="left: 25.00000%; top: 6.69873%"><p>55</p></div>
 								<div role="button" style="left: 50.00000%; top: 0.00000%"><p>60</p></div>
 							</div>
-							<div class="col">
+
+							<div id="timer_control">
 								<div id="tomato_clock">--:--</div>
 								<div>
 									<button class="icon_button" id="start_btn">
@@ -118,9 +119,10 @@
 						</div>
 						<hr>
 						<div class="stamp button">
+							<div><input class="form-control" id="recodeText" type="text"></div>
 							<button class="btn btn-dark" id="signIn">Sign In</button>
 							<button class="btn btn-dark" id="signOut">Sign Out</button>
-							<input id="recodeText" type="text">
+
 							<button class="btn btn-dark" id="stamp_start" style="display: inline;">stamp_start</button>
 							<button class="btn btn-dark" id="stamp_end" style="display: none;">stamp_end</button>
 							<button class="btn btn-dark" id='sheet_init'>sheet_init</button>
