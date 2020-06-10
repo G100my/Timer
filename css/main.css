@@ -1,0 +1,220 @@
+/* || variables */
+
+:root {
+	--light-green: #BEE3DB;
+	--white: #FAF9F9;
+	--dark-green: #16697a;
+	--medium-green: #489fb5d2;
+	--orange: #ffa62b;
+	--contentM: '0';
+	--contentS: 'yyyyy';
+}
+
+/* || global */
+
+body {
+	background-color: var(--light-green);
+	height: 100vh;
+	width: 100vw;
+	color: var(--white);
+	position: fixed;
+}
+
+button {
+	padding-bottom: 3px;
+}
+
+.icon_button {
+	background-color: unset;
+	font-size: 35px;
+	border: 0px;
+	color: var(--white);
+	padding: 0 1%;
+	line-height: 0;
+}
+
+.form-control {
+	background-color: rgba(250, 249, 249, 0.74);
+}
+
+/* || header */
+
+header {
+	background-color: var(--dark-green);
+}
+
+nav div {
+	min-width: 100px;
+	text-align: end;
+}
+
+header button {
+	display: none;
+}
+
+/* || sidebar */
+
+#sidebar > div {
+	border: 2px var(--medium-green) solid;
+	border-radius: 10px;
+	margin: 15px;
+}
+
+@media (max-width: 575.98px) {
+	header .icon_button {
+		display: inline-block;
+	}
+	#sidebar {
+		margin-left: -100%;
+		transition: all 0.3s;
+		z-index: 10;
+		padding-bottom: 80px;
+		min-height: 90vh;
+		max-height: 90vh;
+		background-color: rgba(190, 227, 219, 0.932);
+	}
+	#sidebar.active {
+		margin-left: 0;
+		transition: all 0.3s;
+	}
+	#main_container {
+		position: fixed;
+	}
+	#svg_container {
+		height: 75vmin;
+		width: 75vmin;
+	}
+	#mission_list {
+		max-height: 70vh;
+	}
+}
+
+/* || digital_clock */
+
+#digital_clock {
+	font-size: 5vmin;
+	background-color: var(--dark-green);
+	color: var(--orange);
+}
+
+/* || mission list */
+
+#mission_list {
+	max-height: 55vh;
+	min-height: 55vh;
+}
+
+#mission_list div:first-child {
+	border-color: var(--medium-green);
+	border-width: 3px;
+	font-size: larger;
+}
+
+.missions {
+	position: relative;
+	border-bottom: 1px var(--white) solid;
+	border-radius: 3px;
+	word-wrap: break-word;
+	font-weight: bold;
+	vertical-align: middle;
+	min-height: 43px;
+	margin: 6% 5%;
+	padding-bottom: 10px;
+	text-align: center;
+	font-size: smaller;
+}
+
+.missions .icon_button {
+	font-size: initial;
+	line-height: inherit;
+	color: var(--white);
+	float: right;
+	margin-left: 8px;
+}
+
+.missions .icon_button svg {
+	max-width: 25px;
+}
+
+#mission_list div span {
+	font-size: x-small;
+	position: absolute;
+	bottom: -0.6rem;
+	right: 0;
+	background-color: var(--light-green);
+	padding-left: 5px;
+}
+
+/* || circle progress */
+
+#svg_container {
+	height: 60vmin;
+	width: 60vmin;
+	/* background-image: radial-gradient(circle, #16697a 44%, #BEE3DB 69%); */
+}
+
+#svg_container {
+	position: relative;
+}
+
+#svg_container > svg {
+	width: inherit;
+	height: inherit;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+/* || timer control*/
+
+#tomato_clock {
+	font-size: 10vmin;
+	font-weight: 700;
+}
+
+#timer_control {
+	position: relative;
+	top: 33.33%;
+}
+
+.repeat_switch {
+	color: var(--medium-green);
+}
+
+/* || number group */
+
+#number_group {
+	margin: 0;
+	top: -2.5%;
+	left: -2.5%;
+	height: 105%;
+	width: 105%;
+}
+
+#number_group div {
+	margin: 0;
+	padding: 0;
+	line-height: 0;
+	position: absolute;
+	height: 1px;
+	width: 1px;
+}
+
+p {
+	color: var(--medium-green);
+	font-size: 3vmin;
+	font-weight: 700;
+	position: relative;
+	left: -2.5vmin;
+	top: -2.5vmin;
+	z-index: 50;
+	height: 5vmin;
+	width: 5vmin;
+	line-height: 4.5vmin;
+}
+
+p:hover {
+	border: 1px solid var(--white);
+	border-radius: 50%;
+	background-color: var(--white);
+}
