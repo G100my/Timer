@@ -25,12 +25,12 @@ var timer = {
 	intervalID: 0,
 	timeSet: 0,
 	svgAngle: 0,
-	set: function(min, sec = 0, title = mission.name) {
+	set: function (min, sec = 0, angle = 0, title = mission.name) {
 		this.min = min;
 		this.sec = sec;
-		this.timeSet = min * 60000 + sec * 1000;
-		this.startTime = Date.now();
-		this.svgAngle = 0;
+		this.timeSet = mission.minSet * 60000;
+		this.svgAngle = angle
+		console.log(this.svgAngle);
 		displayTime();
 		displayMissionTitle(title);
 	},

@@ -114,14 +114,15 @@ function loadLocal() {
       index += 1;
     });
   };
-  if (mission.startTime !== undefined && !mission.completed) {
-    console.log('load local mission');
-    console.log(mission);
+  if (mission.startTime !== undefined) {
     t = ((mission.startTime + mission.minSet * 60000) - Date.now()) / 1000;
+    console.log('t',t);
     if (t > 1) {
       let m = parseInt((t) / 60);
-      let s = parseInt(t % 60)
-      timer.set(m, s);
+      let s = parseInt(t % 60);
+      let angle = (mission.minSet * 60 - t) / (mission.minSet * 60);
+      console.log('angle ', angle)
+      timer.set(m, s, angle);
       timer.start(checkSmokeCall);
       displayMissionTitle(mission.name);
 
@@ -214,6 +215,9 @@ $("#stop_btn").click(() => {
   displayMissionTitle('manual stop');
   document.getElementById("tomato_clock").innerText = '--:--';
 
+  
+  mission.startTime = undefined;
+  
   forecastTime();
   $("#start_btn").show();
   $("#stop_btn").hide();
