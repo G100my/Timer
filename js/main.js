@@ -2,13 +2,13 @@ let stampState = true;
 let defaultTitle = 'Do your best';
 
 // 紀錄接下來的事件、已經完成準備上傳到 sheet 的事件
-var list = getLocal('localList') || {
+var list = getLocal('list') || {
   toDo: [],
   completed: [],
   lastTitle: defaultTitle
 };
 // 紀錄當前工作事件資料，每次完成、中止都會記錄到 list.complete
-var mission = {
+var mission = getLocal('mission') || {
   combo: 0,
   repeat: false,
 
@@ -34,7 +34,7 @@ function addToList(msg) {
   list.lastTitle = currenValue;
   let id = Date.now();
   list.toDo.push(currenValue);
-  setLocal('localList', list);
+  setLocal();
   displayList(id, currenValue);
   forecastTime();
 };
@@ -45,7 +45,7 @@ function deleteMission(id) {
   let index = list.toDo.findIndex(t => t === target.text());
   list.toDo.splice(index, 1);
   target.remove();
-  setLocal('localList', list);
+  setLocal();
   forecastTime();
 };
 
@@ -99,7 +99,7 @@ function recordMission(isCompleted = true) {
     completed: (isCompleted) ? mission.minSet : mission.minSet - timer.min -1
   });
 
-  setLocal('localList', list);
+  setLocal();
 };
 
 // ===================
@@ -134,12 +134,9 @@ function loadLocal() {
 
 // ===================
 
-function setLocal(key, item) {
-  console.log('setLocal ' + key);
-  localStorage.setItem(key, JSON.stringify(item));
-  console.log(item);
-  console.log('local storage: ');
-  console.log(localStorage);
+function setLocal() {
+  localStorage.setItem('localList', JSON.stringify(list));
+  localStorage.setItem('mission', JSON.stringify(mission));
 };
 
 function getLocal(item) {
@@ -204,8 +201,7 @@ $("#start_btn").click(() => {
   });
   forecastTime();
 
-  setLocal('localMission', mission);
-  setLocal('localList', list);
+  setLocal();
   $("#start_btn").hide();
   $("#stop_btn").show();
 });
@@ -221,6 +217,7 @@ $("#stop_btn").click(() => {
   forecastTime();
   $("#start_btn").show();
   $("#stop_btn").hide();
+  setLocal();
 });
 $('#sidebarCollapse').on('click', () => {
   $('#sidebar').toggleClass('active');
