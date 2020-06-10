@@ -1,7 +1,7 @@
 // =================== normal clock
 
 var clockTime;
-var clock;
+var clock = new Date();
 setInterval(() => {
 	clock = new Date();
 	let h = clock.getHours();
@@ -12,6 +12,8 @@ setInterval(() => {
 	m = (m < 10) ? "0" + m : m;
 	colon = (s % 2 == 0) ? " " : ":";
 	clockTime = h + colon + m;
+	
+	if (!timer.intervalID && s == 0) { forecastTime() };
 
 	$("#digital_clock").text(clockTime);
 }, 1000);
@@ -32,7 +34,7 @@ var timer = {
 		displayTime();
 		displayMissionTitle(title);
 	},
-	stop: () => { clearInterval(timer.intervalID); },
+	stop: () => { clearInterval(timer.intervalID); timer.intervalID = false; },
 	start: function(callback = () => { console.log('No next mission? Really?') }) {
 		let countSec = 10;
 		console.log(this)
@@ -67,7 +69,7 @@ window.onresize = () => {
 
 function displayTime(m = timer.min, s = timer.sec) {
 	document.getElementById("tomato_clock").innerText = addZero(m) + ':' + addZero(s);
-	console.log('displayTime:  m ' + m + 's ' + s);
+	console.log('displayTime:  '+ m + ' m  ' + s + ' s');
 };
 
 function addZero(num) {

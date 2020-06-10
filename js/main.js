@@ -36,6 +36,7 @@ function addToList(msg) {
   list.toDo.push(currenValue);
   setLocal('localList', list);
   displayList(id, currenValue);
+  forecastTime();
 };
 
 function deleteMission(id) {
@@ -45,9 +46,26 @@ function deleteMission(id) {
   list.toDo.splice(index, 1);
   target.remove();
   setLocal('localList', list);
+  forecastTime();
 };
 
 // ===================
+
+function forecastTime() {
+  let forecast = document.getElementsByClassName('forecast');
+  for (let i = 0; i < forecast.length; i++) {
+    let h = clock.getHours();
+    let m = clock.getMinutes() + mission.minSet * (i + 1) + 5;
+    if (m >= 60) {
+      h += parseInt(m / 60);
+      m = m % 60;
+    };
+    if (h >= 24) {
+      h -= 24;
+    };
+    forecast[i].innerText = addZero(h) + ':' + addZero(m);
+  };
+};
 
 function checkSmokeCall() {
   if (mission.combo >= 4) {
@@ -111,6 +129,7 @@ function loadLocal() {
       $("#stop_btn").show();
     }
   };
+  forecastTime();
 };
 
 // ===================
@@ -183,6 +202,7 @@ $("#start_btn").click(() => {
     recordMission();
     checkSmokeCall();
   });
+  forecastTime();
 
   setLocal('localMission', mission);
   setLocal('localList', list);
@@ -198,6 +218,7 @@ $("#stop_btn").click(() => {
   displayMissionTitle('manual stop');
   document.getElementById("tomato_clock").innerText = '--:--';
 
+  forecastTime();
   $("#start_btn").show();
   $("#stop_btn").hide();
 });
