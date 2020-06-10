@@ -85,7 +85,7 @@ function checkNext() {
     let next = $("#mission_list div:first");
     mission.name = next.text();
   };
-  
+  numberAppear();
   $("#start_btn").show();
   $("#stop_btn").hide();
 };
@@ -126,6 +126,7 @@ function loadLocal() {
       timer.start(checkSmokeCall);
       displayMissionTitle(mission.name);
 
+      numberDisappear();
       $("#start_btn").hide();
       $("#stop_btn").show();
     }
@@ -203,6 +204,7 @@ $("#start_btn").click(() => {
   forecastTime();
 
   setLocal();
+  numberDisappear();
   $("#start_btn").hide();
   $("#stop_btn").show();
 });
@@ -219,6 +221,7 @@ $("#stop_btn").click(() => {
   mission.startTime = undefined;
   
   forecastTime();
+  numberAppear();
   $("#start_btn").show();
   $("#stop_btn").hide();
   setLocal();
