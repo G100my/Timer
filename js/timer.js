@@ -35,10 +35,10 @@ var timer = {
 	intervalID: 0,
 	timeSet: 0,
 	svgAngle: 0,
-	set: function (min, sec = 0, angle = 0, title = mission.name) {
+	set: function (min, sec = 0, angle = 0, forecastTime = mission.minSet, title = mission.name) {
 		this.min = min;
 		this.sec = sec;
-		this.timeSet = mission.minSet * 60000;
+		this.timeSet = forecastTime * 60000;
 		this.svgAngle = angle
 		displayTime();
 		displayMissionTitle(title);
