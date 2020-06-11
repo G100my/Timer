@@ -109,7 +109,10 @@ function setNextSmokeCall() {
     timer.set(5, 0, 0);
   }
   saveMission();
-  timer.start(finishSmokeCall);
+  timer.start(() => {
+    finishSmokeCall();
+    createNotification("Time's up! Go back to work and do your best again.");
+  });
 };
 
 
@@ -121,6 +124,7 @@ $("#start_btn").click(() => {
   timer.start(() => {
     finishMission();
     setNextSmokeCall();
+    createNotification("It's time to take a break.");
   });
   
   $("#start_btn").hide();
@@ -257,6 +261,57 @@ function numberAppear() {
   }, 50);
 };
 
+
+// ==== Notification
+
+notificationBtn = document.getElementById('notification_btn');
+notificationBtn.onclick = askNotificationPermission;
+
+function askNotificationPermission() {
+  if (!"Notification" in window) {
+    console.log("This browser does not support notifications.");
+  } else {
+    if (checkNotificationPromise()) {
+      Notification.requestPermission()
+        .then((permission) => {
+          handlePermission(permission);
+          console.log(Notification.permission);
+        })
+    } else {
+      Notification.requestPermission(function (permission) {
+        handlePermission(permission);
+      });
+    };
+  };
+
+  function checkNotificationPromise() {
+    try {
+      Notification.requestPermission().then();
+    } catch (e) {
+      return false;
+    };
+    return true;
+  };
+
+  function handlePermission(permission) {
+    if (!('permission' in Notification)) {
+      Notification.permission = permission;
+    };
+
+    // set the button to shown or hidden, depending on what the user answers
+    if (Notification.permission === 'denied' || Notification.permission === 'default') {
+      displayMissionTitle('Alert has been lock, go to broswer seting and unlock')
+      cc('QQ')
+    } else {
+      notificationBtn.onclick = function () { createNotification('Timer alert has been actived') }
+    };
+  };
+};
+
+function createNotification(msg) {
+  let img = '../favicon.ico';
+  new Notification('Timer', { body: msg, icon: img });
+};
 
 // ==== oters
 
