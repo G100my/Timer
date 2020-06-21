@@ -218,8 +218,8 @@ function numberDisappear() {
   $('#number_group div').each(function () {
     let targetX = x - $(this).position().left;
     let targetY = y - $(this).position().top;
-    let stepX = (targetX) / 150;
-    let stepY = (targetY) / 200;
+    let stepX = (targetX) / 100;
+    let stepY = (targetY) / 100;
     let step = 0;
     let t = setInterval(() => {
       if (step >= 100) clearInterval(t);
@@ -236,11 +236,11 @@ function numberDisappear() {
 
       if (step > 20) {
         let scale = (1 - step * 0.01);
-        scale = (scale < 0.1) ? 0 : scale;
+        // scale = (scale < 0.1) ? 0 : scale;
         $(this).css('transform', 'matrix(' + scale + ', 0, 0, ' + scale + ', ' + stepX * step + ', ' + stepY * step + ')');
         step += 5;
 
-        if (scale === 0) {
+        if (scale <= 0) {
           $('#number_group').hide();
           clearInterval(t);
           $(this).css('transform', "none");

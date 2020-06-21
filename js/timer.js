@@ -36,6 +36,7 @@ var timer = {
 	intervalID: 0,
 	timeSet: 0,
 	svgAngle: 0,
+	// fixme  min, sec = 0, :  sec, min = 0,
 	set: function (min, sec = 0, angle = 0, forecastTime = mission.minSet, title = mission.name) {
 		this.min = min;
 		this.sec = sec;
