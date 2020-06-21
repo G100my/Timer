@@ -4,8 +4,6 @@ let SmokeCallMsg = 'Take a breath.';
 let RestMsg = 'Take a walk.';
 let restTime = 20;
 let smokeTime = 5;
-const input = document.getElementById("mission_input");
-
 
 let list = getLocal('list') || {
   toDo: [],
@@ -21,8 +19,8 @@ let mission = getLocal('mission') || {
   startTime: undefined
 };
 
-
 // ==== input mission
+const input = document.getElementById("mission_input");
 
 // true => reset last mission's forecast time, false => reset all
 function setForecastTime(mode = false) {
@@ -42,9 +40,9 @@ function setForecastTime(mode = false) {
   };
 };
 
-function addTo_mission_list(id, string) {
+function addTo_mission_list(id, msg) {
   $("#mission_list").append(
-    '<div id="' + id + '" class="missions"><button class="icon_button" type="button" onclick="deleteMission(' + id + ')"><svg class="bi bi-trash-fill" width="1.2rem" height="1.2rem" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z" /></svg ></button>' + string + '<span class="forecast">00:00</span></div>');
+    '<div id="' + id + '" class="missions"><button class="icon_button" type="button"><svg class="bi bi-trash-fill" width="1.2rem" height="1.2rem" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z" /></svg ></button>' + msg + '<span class="forecast">00:00</span></div>');
 };
 
 function addToList(msg) {
@@ -84,6 +82,8 @@ $("#mission_input").keyup((event) => {
 
 
 // ==== start button & stop button
+const $stop_btn = $("#stop_btn");
+const $start_btn = $("#start_btn");
 
 function displayMissionTitle(msg) {
   document.getElementById("current_mission").innerText = msg;
@@ -91,12 +91,12 @@ function displayMissionTitle(msg) {
 
 function finishSmokeCall() {
   if (!mission.repeat) {
-    let next = $("#mission_list div:first");
-    mission.name = next.text();
+    let $next = $("#mission_list div:first");
+    mission.name = $next.text();
   };
   numberAppear();
-  $("#start_btn").show();
-  $("#stop_btn").hide();
+  $start_btn.show();
+  $stop_btn.hide();
 };
 
 function setNextSmokeCall() {
@@ -117,7 +117,7 @@ function setNextSmokeCall() {
 };
 
 
-$("#start_btn").click(() => {
+$start_btn.click(() => {
   mission.name = (list.toDo.length > 0) ? list.toDo[0] : defaultMissionTitle;
   mission.startTime = Date.now();
 
@@ -127,15 +127,15 @@ $("#start_btn").click(() => {
     setNextSmokeCall();
     createNotification("It's time to take a break.");
   });
-  
-  $("#start_btn").hide();
-  $("#stop_btn").show();
+
+  $start_btn.hide();
+  $stop_btn.show();
   setForecastTime();
   numberDisappear();
   saveMission();
 });
 
-$("#stop_btn").click(() => {
+$stop_btn.click(() => {
   timer.stop();
   finishMission(false);
 
@@ -144,9 +144,9 @@ $("#stop_btn").click(() => {
   document.getElementById("tomato_clock").innerText = '--:--';
 
   numberAppear();
-  $("#start_btn").show();
-  $("#stop_btn").hide();
-  
+  $start_btn.show();
+  $stop_btn.hide();
+
   setForecastTime();
 });
 
@@ -199,8 +199,8 @@ function loadLocal() {
       timer.set(m, s, angle);
       timer.start(setNextSmokeCall);
       numberDisappear();
-      $("#start_btn").hide();
-      $("#stop_btn").show();
+      $start_btn.hide();
+      $stop_btn.show();
     } else {
       finishMission();
     }
@@ -216,8 +216,9 @@ function numberDisappear() {
   let y = document.getElementById('number_group').clientHeight / 2;
   // 還不明白為什麼 $('p').each(()=>{$(this)}) 裡面的 $(this) 會指向 window .......
   $('#number_group div').each(function () {
-    let targetX = x - $(this).position().left;
-    let targetY = y - $(this).position().top;
+    let $this = $(this);
+    let targetX = x - $this.position().left;
+    let targetY = y - $this.position().top;
     let stepX = (targetX) / 100;
     let stepY = (targetY) / 100;
     let step = 0;
@@ -226,7 +227,7 @@ function numberDisappear() {
 
       if (step <= 5) {
         let scale = (1 + step * 0.025);
-        $(this).css('transform', 'matrix(' + scale + ', 0, 0, ' + scale + ', ' + (-stepX * step) + ', ' + (-stepY * step) + ')');
+        $this.css('transform', 'matrix(' + scale + ', 0, 0, ' + scale + ', ' + (-stepX * step) + ', ' + (-stepY * step) + ')');
         step += 0.1;
       };
 
@@ -237,13 +238,13 @@ function numberDisappear() {
       if (step > 20) {
         let scale = (1 - step * 0.01);
         // scale = (scale < 0.1) ? 0 : scale;
-        $(this).css('transform', 'matrix(' + scale + ', 0, 0, ' + scale + ', ' + stepX * step + ', ' + stepY * step + ')');
+        $this.css('transform', 'matrix(' + scale + ', 0, 0, ' + scale + ', ' + stepX * step + ', ' + stepY * step + ')');
         step += 5;
 
         if (scale <= 0) {
           $('#number_group').hide();
           clearInterval(t);
-          $(this).css('transform', "none");
+          $this.css('transform', "none");
         };
       }
     }, 10);
