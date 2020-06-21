@@ -21,6 +21,7 @@ setInterval(() => {
 
 function displayTime(m = timer.min, s = timer.sec) {
 	document.getElementById("tomato_clock").innerText = addZero(m) + ':' + addZero(s);
+	document.title = addZero(m) + ':' + addZero(s);
 };
 
 function addZero(num) {
@@ -45,9 +46,9 @@ var timer = {
 	},
 	stop: () => { clearInterval(timer.intervalID); timer.intervalID = false; },
 	start: function(callback = () => { console.log('No next mission? Really?') }) {
-		let countSec = 10;
+		let countSec = 5;
 		this.intervalID = setInterval(() => {
-			if (countSec === 10) {
+			if (countSec === 5) {
 				displayTime();
 				this.sec -= 1;
 				countSec = 0;
@@ -64,7 +65,7 @@ var timer = {
 			countSec += 1;
 			this.svgAngle += (100 / this.timeSet);
 			drawProgress(this.svgAngle);
-		}, 100);
+		}, 200);
 	},
 };
 
@@ -134,5 +135,6 @@ $('p').each(function (e) {
 	$(this).click(() => {
 		mission.minSet = (e + 1) * 5;
 		drawChoose(mission.minSet / 60);
+		setForecastTime();
 	});
 });
