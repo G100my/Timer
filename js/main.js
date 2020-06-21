@@ -2,22 +2,23 @@ let stampState = true;
 let defaultMissionTitle = 'Do your best';
 let SmokeCallMsg = 'Take a breath.';
 let RestMsg = 'Take a walk.';
-let input = document.getElementById("mission_input");
 let restTime = 20;
+let smokeTime = 5;
+const input = document.getElementById("mission_input");
 
 
-var list = getLocal('list') || {
+let list = getLocal('list') || {
   toDo: [],
   completed: [],
   lastTitle: defaultMissionTitle
 };
 
-var mission = getLocal('mission') || {
+let mission = getLocal('mission') || {
   combo: 0,
   repeat: false,
   name: defaultMissionTitle,
   minSet: 25,
-  startTime: 0
+  startTime: undefined
 };
 
 
@@ -29,7 +30,7 @@ function setForecastTime(mode = false) {
   if (forecast.length == 0) { return };
   for (let i = (mode) ? forecast.length - 1 : 0; i < forecast.length; i++) {
     let h = clock.getHours();
-    let m = clock.getMinutes() + mission.minSet * (i + 1) + 5;
+    let m = clock.getMinutes() + (mission.minSet + smokeTime) * (i + 1);
     if (m >= 60) {
       h += parseInt(m / 60);
       m = m % 60;
@@ -65,7 +66,7 @@ function deleteMission(id) {
   target.remove();
   
   saveList();
-  setForecastTime(0);
+  setForecastTime();
 };
 
 $('#mission_input_btn').click(() => {
@@ -106,7 +107,7 @@ function setNextSmokeCall() {
   } else {
     mission.combo += 1;
     mission.name = SmokeCallMsg
-    timer.set(5, 0, 0);
+    timer.set(smokeTime, 0, 0);
   }
   saveMission();
   timer.start(() => {
@@ -173,7 +174,7 @@ function saveMission() {
 };
 
 function saveList() {
-  localStorage.setItem('localList', JSON.stringify(list));
+  localStorage.setItem('list', JSON.stringify(list));
 };
 
 function getLocal(item) {
