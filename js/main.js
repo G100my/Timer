@@ -57,15 +57,22 @@ function addToList(msg) {
   setForecastTime(true);
 };
 
-function deleteMission(id) {
-  let target = $("#" + id);
-  let index = list.toDo.findIndex(t => t === target.text());
-  list.toDo.splice(index, 1);
+
+$('#mission_list').click((e) => {
+  let target, n, index;
+  target = e.target;
+  n = target.tagName;
+  
+  if (!(n == 'svg' || n == 'path' || n == 'BUTTON')) { return; };
+  while (target.getAttribute('class') != 'missions') { target = target.parentNode; };
   target.remove();
   
+  index = list.toDo.findIndex(t => t === target.getAttribute('id'));
+  list.toDo.splice(index, 1);
+
   saveList();
   setForecastTime();
-};
+});
 
 $('#mission_input_btn').click(() => {
   addToList(input.value);
