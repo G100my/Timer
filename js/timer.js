@@ -132,10 +132,13 @@ function drawChoose(target, start = lastAngle) {
 	lastAngle = target;
 };
 
-$('p').each(function (e) {
-	$(this).click(() => {
-		mission.minSet = (e + 1) * 5;
-		drawChoose(mission.minSet / 60);
-		setForecastTime();
-	});
+$('#number_group').click((e) => {
+	if (e.target.tagName == 'P') {
+		let num = parseInt(e.target.textContent);
+		if (mission.minSet != num) {
+			mission.minSet = num;
+			drawChoose(mission.minSet / 60);
+			setForecastTime();
+		}
+	}
 });
