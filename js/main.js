@@ -334,3 +334,33 @@ $('#repeat_switch').click(() => {
   mission.repeat = !mission.repeat;
   $('#repeat_switch').toggleClass('repeat_switch');
 });
+
+// ==== Drag and Drop
+let dragItem;
+
+$missionList.on('dragstart', function (e) { dragItem = e.target });
+$missionList.on('dragover', function (e) { e.preventDefault() });
+$missionList.on('dragenter', function (e) { e.target.style.borderBottom = "3px solid var(--orange)" });
+$missionList.on('dragleave', function (e) { e.target.style.borderBottom = "" });
+$missionList.on('drop', function (e) {
+  let parent, srcItem, srcIndex, targetIndex;
+  parent = event.target.parentNode;
+  srcIndex = list.toDo.findIndex((i) => { return i.id == dragItem.id });
+  srcItem = list.toDo.splice(srcIndex, 1)[0];
+
+  if (event.target.hasAttribute('draggable')) {
+    parent.insertBefore(dragItem, event.target);
+    targetIndex = list.toDo.findIndex((i) => { return i.id == e.target.id });
+  }
+  else {
+    dragItem.remove();
+    $missionList.append(dragItem);
+    targetIndex = list.toDo.length + 1;
+  }
+  e.target.style.borderBottom = ""
+
+  list.toDo.splice(targetIndex, 0, srcItem);
+});
+
+// $missionList.on('dragend', function (e) { });
+// $missionList.on('drag', function (e) { });
