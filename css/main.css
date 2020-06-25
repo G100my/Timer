@@ -54,7 +54,7 @@ header button {
 
 /* || sidebar */
 
-#sidebar > div {
+#sidebar>div {
 	border: 2px var(--medium-green) solid;
 	border-radius: 10px;
 	margin: 15px;
@@ -89,7 +89,7 @@ header button {
 	}
 }
 
-/* || digital_clock */
+/* digital_clock */
 
 #digital_clock {
 	font-size: 5vmin;
@@ -97,7 +97,7 @@ header button {
 	color: var(--orange);
 }
 
-/* || mission list */
+/* mission list */
 
 #mission_list {
 	max-height: 55vh;
@@ -113,15 +113,14 @@ header button {
 .missions {
 	position: relative;
 	border-bottom: 1px var(--white) solid;
-	border-radius: 3px;
-	word-wrap: break-word;
+	border-bottom-left-radius: 3px;
 	font-weight: bold;
-	vertical-align: middle;
 	min-height: 43px;
-	margin: 6% 5%;
-	padding-bottom: 10px;
+	margin: 0 5%;
+	padding: 15px 0;
 	text-align: center;
-	font-size: smaller;
+	font-size: medium;
+	/* height: 10vh; */
 }
 
 .missions .icon_button {
@@ -157,7 +156,7 @@ header button {
 	position: relative;
 }
 
-#svg_container > svg {
+#svg_container>svg {
 	width: inherit;
 	height: inherit;
 	position: absolute;
@@ -202,7 +201,7 @@ header button {
 
 p {
 	color: var(--medium-green);
-	font-size: 3vmin;
+	font-size: 4vmin;
 	font-weight: 700;
 	position: relative;
 	left: -2.5vmin;
