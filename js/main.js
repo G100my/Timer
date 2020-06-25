@@ -1,4 +1,3 @@
-let stampState = true;
 let defaultMissionTitle = 'Do your best';
 let SmokeCallMsg = 'Take a breath.';
 let RestMsg = 'Take a walk.';
@@ -6,7 +5,7 @@ let restTime = 20;
 let smokeTime = 5;
 
 let list = getLocal('list') || {
-  toDo: [],
+  todo: [],
   completed: [],
   lastTitle: defaultMissionTitle
 };
@@ -42,8 +41,8 @@ function setForecastTime(mode = false) {
 };
 
 function addTo_mission_list(id, msg) {
-    '<div id="' + id + '" class="missions" draggable="true">' + msg + '<button class="icon_button" type="button"><svg class="bi bi-trash-fill" width="1.2rem" height="1.2rem" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z" /></svg ></button><span class="forecast">00:00</span></div>');
   $missionList.append(
+    '<div id="' + id + '" class="missions" draggable="true"><button class="icon_button" type="button"><svg class="bi bi-trash-fill" width="1.2rem" height="1.2rem" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z" /></svg ></button>' + msg + '<span class="forecast">00:00</span></div>');
 };
 
 function addToList(msg) {
@@ -51,7 +50,7 @@ function addToList(msg) {
   list.lastTitle = missionTitle;
 
   let missionId = Date.now();
-  list.toDo.push({ id: missionId, title: missionTitle });
+  list.todo.push({ id: missionId, title: missionTitle });
   addTo_mission_list(missionId, missionTitle);
 
   saveList();
@@ -68,10 +67,9 @@ $missionList.click((e) => {
   if (!(n == 'svg' || n == 'path' || n == 'BUTTON')) { return; };
   while (target.getAttribute('class') != 'missions') { target = target.parentNode; };
   target.remove();
-  
-  index = list.toDo.findIndex(e => e['id'] == target.getAttribute('id'));
-  list.toDo.splice(index, 1);
-  cc(list.toDo);
+
+  index = list.todo.findIndex(e => e['id'] == target.getAttribute('id'));
+  list.todo.splice(index, 1);
 
   saveList();
   setForecastTime();
@@ -128,7 +126,7 @@ function setNextSmokeCall() {
 
 
 $start_btn.click(() => {
-  mission.name = (list.toDo.length > 0) ? list.toDo[0] : defaultMissionTitle;
+  mission.name = (list.todo.length > 0) ? list.todo[0] : defaultMissionTitle;
   mission.startTime = Date.now();
 
   timer.set(mission.minSet);
@@ -165,13 +163,13 @@ $stop_btn.click(() => {
 
 function finishMission(isCompleted = true) {
   list.completed.push({
-    title: mission.name,
     startTime: mission.startTime,
+    title: mission.name,
     timeSet: mission.minSet,
     completed: (isCompleted) ? mission.minSet : mission.minSet - timer.min - 1
   });
-  if (list.toDo.length >= 1 && isCompleted && !mission.repeat) {
-    mission.name = list.toDo.shift();
+  if (list.todo.length >= 1 && isCompleted && !mission.repeat) {
+    mission.name = list.todo.shift();
     $(".missions:first").remove();
   };
   mission.startTime = undefined;
@@ -193,8 +191,8 @@ function getLocal(item) {
 };
 
 function loadLocal() {
-  if (list.toDo.length > 0) {
-    list.toDo.forEach(e => {
+  if (list.todo.length > 0) {
+    list.todo.forEach(e => {
       addTo_mission_list(e['id'], e['title']);
     });
     setForecastTime();
@@ -345,21 +343,21 @@ $missionList.on('dragleave', function (e) { e.target.style.borderBottom = "" });
 $missionList.on('drop', function (e) {
   let parent, srcItem, srcIndex, targetIndex;
   parent = event.target.parentNode;
-  srcIndex = list.toDo.findIndex((i) => { return i.id == dragItem.id });
-  srcItem = list.toDo.splice(srcIndex, 1)[0];
+  srcIndex = list.todo.findIndex((i) => { return i.id == dragItem.id });
+  srcItem = list.todo.splice(srcIndex, 1)[0];
 
   if (event.target.hasAttribute('draggable')) {
     parent.insertBefore(dragItem, event.target);
-    targetIndex = list.toDo.findIndex((i) => { return i.id == e.target.id });
+    targetIndex = list.todo.findIndex((i) => { return i.id == e.target.id });
   }
   else {
     dragItem.remove();
     $missionList.append(dragItem);
-    targetIndex = list.toDo.length + 1;
+    targetIndex = list.todo.length + 1;
   }
   e.target.style.borderBottom = ""
 
-  list.toDo.splice(targetIndex, 0, srcItem);
+  list.todo.splice(targetIndex, 0, srcItem);
 });
 
 // $missionList.on('dragend', function (e) { });
