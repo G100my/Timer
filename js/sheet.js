@@ -169,3 +169,24 @@ function createSpreadsheet() {
   });
 }
 
+
+// ==== cell control
+
+function appendRecord(valueArray) {
+  gapi.client.sheets.spreadsheets.values.append(
+    {
+      "spreadsheetId": sheetID,
+      "range": "Record!A:B",
+      "valueInputOption": "USER_ENTERED",
+      "responseDateTimeRenderOption": "FORMATTED_STRING",
+      "values": [valueArray]
+    }
+  ).then(
+    function (response) {
+      cc(response.result);
+    },
+    function (response) {
+      cc(response.result.error);
+    }
+  )
+};
