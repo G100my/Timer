@@ -1,16 +1,16 @@
 // ==== base
 
-var CLIENT_ID;
-var API_KEY;
+let CLIENT_ID;
+let API_KEY;
 $.getJSON("json/client_secret.json", function (data) { CLIENT_ID = data.web.client_id; });
 $.getJSON("json/api_key.json", function (data) { API_KEY = data.APIKEY; });
 
-var DISCOVERY_DOCS = [
+let DISCOVERY_DOCS = [
   "https://sheets.googleapis.com/$discovery/rest?version=v4",
   "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
 
 // spreadsheets & drive.metadata.readonly
-var SCOPES = "https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.metadata.readonly";
+let SCOPES = "https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.metadata.readonly";
 
 let sheetID = undefined;
 let startStampPosition;
@@ -19,8 +19,8 @@ let fileName = 'timer_data';
 
 // ==== sign status
 
-var signoutButton = document.getElementById("signOut");
-var authorizeButton = document.getElementById("signIn");
+let signoutButton = document.getElementById("signOut");
+let authorizeButton = document.getElementById("signIn");
 
 function handleAuthClick() {
   gapi.auth2.getAuthInstance().signIn().then((result) => console.log(result), (error) => console.log(error));
@@ -83,7 +83,7 @@ function getSpreadsheetId() {
       for (let i = 0; i < filesArray.length; i++) {
         if (filesArray[i].name == fileName) {
           sheetID = filesArray[i].id;
-          console.log('find: ' + i + ' ' + filesArray[i].id)
+          console.log('find: i=' + i + ' ' + filesArray[i].id)
           return;
         }
       };
@@ -94,7 +94,7 @@ function getSpreadsheetId() {
 }
 
 function createSpreadsheet() {
-  var spreadsheetBody = {
+  let spreadsheetBody = {
     "properties": { "title": fileName },
     "sheets": [
       {
@@ -159,7 +159,7 @@ function createSpreadsheet() {
     ]
   };
 
-  var request = gapi.client.sheets.spreadsheets.create({}, spreadsheetBody);
+  let request = gapi.client.sheets.spreadsheets.create({}, spreadsheetBody);
   request.then(function (response) {
     console.log('createSpreadsheet response: ' + response);
     sheetID = response.result.spreadsheetId;

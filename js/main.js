@@ -6,8 +6,7 @@ let smokeTime = 5;
 
 let list = getLocal('list') || {
   todo: [],
-  completed: [],
-  lastTitle: defaultMissionTitle
+  completed: []
 };
 
 let mission = getLocal('mission') || {
@@ -21,6 +20,7 @@ let mission = getLocal('mission') || {
 // ==== Mission List
 const input = document.getElementById("mission_input");
 const $missionList = $('#mission_list');
+let lastInputText = defaultMissionTitle;
 
 // true => reset last mission's forecast time, false => reset all
 function setForecastTime(mode = false) {
@@ -46,8 +46,8 @@ function addTo_mission_list(id, msg) {
 };
 
 function addToList(msg) {
-  let missionTitle = (msg === '') ? list.lastTitle : msg;
-  list.lastTitle = missionTitle;
+  let missionTitle = (msg === '') ? lastInputText : msg;
+  lastInputText = missionTitle;
 
   let missionId = Date.now();
   list.todo.push({ id: missionId, title: missionTitle });
@@ -81,7 +81,7 @@ $('#mission_input_btn').click(() => {
 });
 
 $("#mission_input").keyup((event) => {
-  if (event.which === 13 && (input.value !== '' || list.lastTitle !== '')) {
+  if (event.which === 13 && (input.value !== '' || lastInputText !== '')) {
     addToList(input.value);
     input.value = '';
   };
