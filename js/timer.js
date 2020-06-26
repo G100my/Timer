@@ -45,8 +45,13 @@ var timer = {
 		displayTime();
 		displayMissionTitle(title);
 	},
-	stop: () => { clearInterval(timer.intervalID); timer.intervalID = false; },
-	start: function(callback = () => { console.log('No next mission? Really?') }) {
+	stop: () => {
+		clearInterval(timer.intervalID);
+		timer.intervalID = false;
+		document.title = "Timer";
+		drawChoose(mission.minSet / 60, 0);
+	},
+	start: function (callback = () => { console.log('No next mission? Really?') }) {
 		let countSec = 5;
 		this.intervalID = setInterval(() => {
 			if (countSec === 5) {
