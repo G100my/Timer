@@ -23,7 +23,10 @@ let signoutButton = document.getElementById("signOut");
 let authorizeButton = document.getElementById("signIn");
 
 function handleAuthClick() {
-  gapi.auth2.getAuthInstance().signIn().then((result) => console.log(result), (error) => console.log(error));
+  gapi.auth2.getAuthInstance().signIn().then(
+    (result) => { getSpreadsheetId(); console.log(result) },
+    (error) => console.log(error)
+  );
   console.log("gapi.auth2.getAuthInstance().signIn()");
 };
 
