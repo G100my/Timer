@@ -4,10 +4,7 @@ let RestMsg = 'Take a walk.';
 let restTime = 20;
 let smokeTime = 5;
 
-let list = getLocal('list') || {
-  todo: [],
-  completed: []
-};
+let todolist = getLocal('list') || [];
 
 let mission = getLocal('mission') || {
   combo: 0,
@@ -50,7 +47,7 @@ function addToList(msg) {
   lastInputText = missionTitle;
 
   let missionId = Date.now();
-  list.todo.push({ id: missionId, title: missionTitle });
+  todolist.push({ id: missionId, name: missionTitle });
   addTo_mission_list(missionId, missionTitle);
 
   saveList();
@@ -68,8 +65,8 @@ $missionList.click((e) => {
   while (target.getAttribute('class') != 'missions') { target = target.parentNode; };
   target.remove();
 
-  index = list.todo.findIndex(e => e['id'] == target.getAttribute('id'));
-  list.todo.splice(index, 1);
+  index = todolist.findIndex(e => e['id'] == target.getAttribute('id'));
+  todolist.splice(index, 1);
 
   saveList();
   setForecastTime();
@@ -100,7 +97,7 @@ function displayMissionTitle(msg) {
 function finishSmokeCall() {
   if (!mission.repeat) {
     let $next = $("#mission_list div:first");
-    mission.name = $next.text();
+    mission.name = $next.text().name;
   };
   numberAppear();
   $start_btn.show();
@@ -110,7 +107,7 @@ function finishSmokeCall() {
 function setNextSmokeCall() {
   if (mission.combo >= 4) {
     mission.combo = 0;
-    mission.name = restTime;
+    mission.name = RestMsg;
     timer.set(restTime, 0, 0);
   } else {
     mission.combo += 1;
@@ -126,7 +123,7 @@ function setNextSmokeCall() {
 
 
 $start_btn.click(() => {
-  mission.name = (list.todo.length > 0) ? list.todo[0] : defaultMissionTitle;
+  mission.name = (todolist.length > 0) ? todolist[0].name : defaultMissionTitle;
   mission.startTime = Date.now();
 
   timer.set(mission.minSet);
@@ -162,14 +159,19 @@ $stop_btn.click(() => {
 // ==== data
 
 function finishMission(isCompleted = true) {
-  list.completed.push({
-    startTime: mission.startTime,
-    title: mission.name,
-    timeSet: mission.minSet,
-    completed: (isCompleted) ? mission.minSet : mission.minSet - timer.min - 1
-  });
-  if (list.todo.length >= 1 && isCompleted && !mission.repeat) {
-    mission.name = list.todo.shift();
+  let completed, t, datetime;
+  completed = (isCompleted) ? mission.minSet : mission.minSet - timer.min;
+  t = new Date(mission.startTime);
+  datetime = t.getFullYear() + '/' + t.getMonth() + '/' + t.getDate() + ' ' + t.getHours() + ':' + t.getMinutes();
+
+  if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
+    appendRecord([datetime, mission.name, completed]);
+  } else {
+    cc("didn't appendRecord")
+  }
+  
+  if (todolist.length >= 1 && isCompleted && !mission.repeat) {
+    mission.name = todolist.shift().name;
     $(".missions:first").remove();
   };
   mission.startTime = undefined;
@@ -182,7 +184,8 @@ function saveMission() {
 };
 
 function saveList() {
-  localStorage.setItem('list', JSON.stringify(list));
+  localStorage.setItem('list', JSON.stringify(todolist));
+  cc('saveList: ', todolist)
 };
 
 function getLocal(item) {
@@ -191,9 +194,9 @@ function getLocal(item) {
 };
 
 function loadLocal() {
-  if (list.todo.length > 0) {
-    list.todo.forEach(e => {
-      addTo_mission_list(e['id'], e['title']);
+  if (todolist.length > 0) {
+    todolist.forEach(e => {
+      addTo_mission_list(e['id'], e['name']);
     });
     setForecastTime();
   };
@@ -343,21 +346,21 @@ $missionList.on('dragleave', function (e) { e.target.style.borderBottom = "" });
 $missionList.on('drop', function (e) {
   let parent, srcItem, srcIndex, targetIndex;
   parent = event.target.parentNode;
-  srcIndex = list.todo.findIndex((i) => { return i.id == dragItem.id });
-  srcItem = list.todo.splice(srcIndex, 1)[0];
+  srcIndex = todolist.findIndex((i) => { return i.id == dragItem.id });
+  srcItem = todolist.splice(srcIndex, 1)[0];
 
   if (event.target.hasAttribute('draggable')) {
     parent.insertBefore(dragItem, event.target);
-    targetIndex = list.todo.findIndex((i) => { return i.id == e.target.id });
+    targetIndex = todolist.findIndex((i) => { return i.id == e.target.id });
   }
   else {
     dragItem.remove();
     $missionList.append(dragItem);
-    targetIndex = list.todo.length + 1;
+    targetIndex = todolist.length + 1;
   }
   e.target.style.borderBottom = ""
 
-  list.todo.splice(targetIndex, 0, srcItem);
+  todolist.splice(targetIndex, 0, srcItem);
 });
 
 // $missionList.on('dragend', function (e) { });
