@@ -18,23 +18,66 @@ body {
 	width: 100vw;
 	color: var(--white);
 	position: fixed;
+	/* 讓整體畫面固定 */
 }
 
-button {
-	padding-bottom: 3px;
+main {
+	height: calc(100vh - 70px);
+	/* 減去 header 的高度 */
+	padding-right: 10px;
+	/* 避免 number group 右側數字太靠近邊界 */
+}
+
+main div {
+	height: inherit;
+	/* 讓 div 高度都占滿畫面 */
+}
+
+main>div>div div {
+	height: initial;
+	/* 回復之後各層 div 高度 */
+}
+
+#sidebar {
+	font-size: 1.2rem;
+	padding: 25px;
+	height: inherit;
+	/* 撐開 main 的高度讓右測  */
 }
 
 .icon_button {
 	background-color: unset;
-	font-size: 35px;
 	border: 0px;
 	color: var(--white);
-	padding: 0 1%;
 	line-height: 0;
+}
+
+.icon_button:hover {
+	color: var(--white);
+}
+
+.icon_button svg {
+	width: 1.8rem;
+	height: 1.8rem;
 }
 
 .form-control {
 	background-color: rgba(250, 249, 249, 0.74);
+}
+
+::-webkit-scrollbar {
+	width: 7px;
+	height: 7px;
+}
+
+::-webkit-scrollbar-track {
+	border-radius: 10px;
+	box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
 /* || header */
@@ -43,13 +86,29 @@ header {
 	background-color: var(--dark-green);
 }
 
-nav div {
-	min-width: 100px;
-	text-align: end;
+.navbar-brand {
+	margin: 0;
+	/* 為了置中，去掉 bootstrap 預設的 margint right */
 }
 
-header button {
+header>button {
 	display: none;
+	/* 由 javaScript 控制 */
+}
+
+#navbarSupportedContent {
+	position: absolute;
+	top: 10px;
+	right: 0;
+	margin-right: 15px;
+}
+
+.navbar-nav {
+	flex-direction: row;
+}
+
+.nav-item {
+	margin: 10px;
 }
 
 /* || sidebar */
@@ -57,57 +116,22 @@ header button {
 #sidebar>div {
 	border: 2px var(--medium-green) solid;
 	border-radius: 10px;
-	margin: 15px;
-}
-
-@media (max-width: 575.98px) {
-	header .icon_button {
-		display: inline-block;
-	}
-	#sidebar {
-		margin-left: -100%;
-		transition: all 0.3s;
-		z-index: 10;
-		padding-bottom: 80px;
-		min-height: 90vh;
-		max-height: 90vh;
-		background-color: rgba(190, 227, 219, 0.932);
-	}
-	#sidebar.active {
-		margin-left: 0;
-		transition: all 0.3s;
-	}
-	#main_container {
-		position: fixed;
-	}
-	#svg_container {
-		height: 75vmin;
-		width: 75vmin;
-	}
-	#mission_list {
-		max-height: 70vh;
-	}
+	margin: 15px 0;
 }
 
 /* digital_clock */
 
 #digital_clock {
-	font-size: 5vmin;
 	background-color: var(--dark-green);
 	color: var(--orange);
+	font-size: 2em;
 }
 
 /* mission list */
 
-#mission_list {
-	max-height: 55vh;
-	min-height: 55vh;
-}
-
 #mission_list div:first-child {
 	border-color: var(--medium-green);
 	border-width: 3px;
-	font-size: larger;
 }
 
 .missions {
@@ -115,65 +139,78 @@ header button {
 	border-bottom: 1px var(--white) solid;
 	border-bottom-left-radius: 3px;
 	font-weight: bold;
-	min-height: 43px;
-	margin: 0 5%;
-	padding: 15px 0;
+	margin: 3% 5%;
+	padding: 0.8rem 0;
 	text-align: center;
-	font-size: medium;
-	/* height: 10vh; */
+	font-size: 1.2em;
+	overflow-wrap: break-word;
 }
 
 .missions .icon_button {
-	font-size: initial;
-	line-height: inherit;
 	color: var(--white);
 	float: right;
+	/* 不使用 absolute 避免文字和 icon button 重疊 */
 	margin-left: 8px;
 }
 
-.missions .icon_button svg {
-	max-width: 25px;
-}
-
-#mission_list div span {
-	font-size: x-small;
+.missions span {
+	font-size: 0.8em;
 	position: absolute;
 	bottom: -0.6rem;
 	right: 0;
 	background-color: var(--light-green);
-	padding-left: 5px;
+	padding-left: 8px;
+	line-height: 1;
 }
 
-/* || circle progress */
-
-#svg_container {
-	height: 60vmin;
-	width: 60vmin;
-	/* background-image: radial-gradient(circle, #16697a 44%, #BEE3DB 69%); */
+#mission_input_btn>svg {
+	height: 2rem;
+	width: 2rem;
 }
+
+/* || main */
+
+#current_mission {
+	font-size: 5vmin;
+}
+
+/* circle progress */
 
 #svg_container {
 	position: relative;
+	height: 57vmin;
+	width: 57vmin;
+	margin: 10vmin 0;
 }
 
 #svg_container>svg {
-	width: inherit;
-	height: inherit;
+	width: 90%;
+	height: 90%;
 	position: absolute;
-	left: 0;
-	top: 0;
+	left: 5%;
+	top: 5%;
 }
 
 /* || timer control*/
 
+#timer_control {
+	position: relative;
+	top: 30%;
+}
+
 #tomato_clock {
-	font-size: 10vmin;
+	font-size: 9vmin;
 	font-weight: 700;
 }
 
-#timer_control {
-	position: relative;
-	top: 33.33%;
+#timer_control svg {
+	width: 13vmin;
+	height: 13vmin;
+}
+
+#repeat_switch svg {
+	width: 9vmin;
+	height: 9vmin;
 }
 
 .repeat_switch {
@@ -184,13 +221,14 @@ header button {
 
 #number_group {
 	margin: 0;
-	top: -2.5%;
-	left: -2.5%;
-	height: 105%;
-	width: 105%;
+	top: 0%;
+	left: 0%;
+	height: 100%;
+	width: 100%;
 }
 
 #number_group div {
+	/* 只作為定位點 */
 	margin: 0;
 	padding: 0;
 	line-height: 0;
@@ -216,4 +254,76 @@ p:hover {
 	border: 1px solid var(--white);
 	border-radius: 50%;
 	background-color: var(--white);
+}
+
+
+/* || max-width: 575.98px */
+
+@media (max-width: 575.98px) {
+	main {
+		padding: initial;
+	}
+	header .icon_button {
+		display: inline-block;
+	}
+	#navbarSupportedContent {
+		background-color: var(--dark-green);
+		border-bottom-left-radius: 10px;
+		border-bottom-right-radius: 10px;
+		z-index: 15;
+		top: 70px;
+	}
+	.navbar-nav {
+		flex-direction: column;
+	}
+	#sidebar {
+		margin-left: -100%;
+		/* 藏到左側可視範圍外 */
+		transition: all 0.3s;
+		z-index: 10;
+		background-color: rgba(190, 227, 219, 0.932);
+	}
+	#sidebar.active {
+		margin-left: 0;
+		transition: all 0.3s;
+	}
+	#main_container {
+		position: fixed;
+		/* 避免 sidebar 回到畫面中時 svg_container 被推開 */
+	}
+	#current_mission {
+		overflow-x: scroll;
+		overflow-y: hidden;
+		white-space: nowrap;
+		font-size: 2.5rem;
+		position: absolute;
+		top: -16vh;
+		/* 位置介於 progress 與 header 之間 */
+		max-width: 90vw;
+		/* position : absolute 使寬度不受限制 */
+	}
+	::-webkit-scrollbar {
+		display: none;
+	}
+	#svg_container {
+		height: 83vmin;
+		width: 83vmin;
+		font-size: 2rem;
+	}
+	p {
+		font-size: 6vmin;
+		left: -4.6vmin;
+		top: -4.6vmin;
+		height: 9vmin;
+		width: 9vmin;
+		line-height: 9vmin;
+	}
+	#timer_control svg {
+		width: 20vmin;
+		height: 20vmin;
+	}
+	#repeat_switch svg {
+		width: 15vmin;
+		height: 15vmin;
+	}
 }
