@@ -338,7 +338,12 @@ $('#repeat_switch').click(function() {
 
 window.addEventListener('resize', function () {
   drawProgress(lastAngle);
-})
+});
+
+$('#gear').click(function () {
+  $(this).toggleClass('rotate');
+});
+
 
 // ==== Drag and Drop
 let dragItem;
