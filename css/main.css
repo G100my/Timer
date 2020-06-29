@@ -90,6 +90,20 @@ main>div>div div {
 
 header {
 	background-color: var(--dark-green);
+	padding-left: 30px;
+	height: 70px;
+}
+
+#current_mission {
+	overflow-x: scroll;
+	overflow-y: hidden;
+	white-space: nowrap;
+	font-size: 5vmin;
+	background-color: var(--dark-green);
+	height: 70px;
+	margin-left: -1px;
+	text-align: center;
+	padding-left: 0;
 }
 
 .navbar-brand {
@@ -174,10 +188,6 @@ header>button {
 
 /* || main */
 
-#current_mission {
-	font-size: 5vmin;
-}
-
 /* circle progress */
 
 #svg_container {
@@ -197,17 +207,20 @@ header>button {
 
 /* || timer control*/
 
-#timer_control {
-	position: relative;
-	top: 30%;
+.timer_control {
+	position: absolute;
+	bottom: 23%;
+	width: 100%;
+	height: fit-content;
 }
 
 #tomato_clock {
 	font-size: 9vmin;
 	font-weight: 700;
+	width: 100%;
 }
 
-#timer_control svg {
+.timer_control svg {
 	width: 13vmin;
 	height: 13vmin;
 }
@@ -260,15 +273,28 @@ p:hover {
 	background-color: var(--white);
 }
 
-
 /* || max-width: 575.98px */
 
-@media (max-width: 575.98px) {
+@media (max-width: 767.9px) {
 	main {
 		padding: initial;
+		height: calc(100vh - 140px);
+	}
+	header {
+		height: initial;
 	}
 	header .icon_button {
 		display: inline-block;
+	}
+	#current_mission {
+		overflow: initial;
+		white-space: unset;
+		line-height: initial;
+		font-size: 2rem;
+		background-color: initial;
+		width: 100%;
+		padding: 0 30px;
+		top: 3vh;
 	}
 	#sidebar {
 		margin-left: -100%;
@@ -276,6 +302,8 @@ p:hover {
 		transition: all 0.3s;
 		z-index: 10;
 		background-color: rgba(190, 227, 219, 0.932);
+		top: -70px;
+		height: calc(100vh - 70px);
 	}
 	#sidebar.active {
 		margin-left: 0;
@@ -284,12 +312,6 @@ p:hover {
 	#main_container {
 		position: fixed;
 		/* 避免 sidebar 回到畫面中時 svg_container 被推開 */
-	}
-	#current_mission {
-		overflow-x: scroll;
-		overflow-y: hidden;
-		white-space: nowrap;
-		font-size: 2.5rem;
 	}
 	::-webkit-scrollbar {
 		display: none;
