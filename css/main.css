@@ -26,6 +26,7 @@ main {
 	/* 減去 header 的高度 */
 	padding-right: 10px;
 	/* 避免 number group 右側數字太靠近邊界 */
+	font-family: 'Pangolin', 'Noto Sans TC', sans-serif;
 }
 
 main div {
