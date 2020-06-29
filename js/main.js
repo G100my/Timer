@@ -60,7 +60,7 @@ $missionList.click((e) => {
   let target, n, index;
   target = e.target;
   n = target.tagName;
-  
+
   if (!(n == 'svg' || n == 'path' || n == 'BUTTON')) { return; };
   while (target.getAttribute('class') != 'missions') { target = target.parentNode; };
   target.remove();
@@ -164,12 +164,12 @@ function finishMission(isCompleted = true) {
   t = new Date(mission.startTime);
   datetime = t.getFullYear() + '/' + t.getMonth() + '/' + t.getDate() + ' ' + t.getHours() + ':' + t.getMinutes();
 
-  if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
+  if (sheetID) {
     appendRecord([datetime, mission.name, completed]);
   } else {
-    cc("didn't appendRecord")
+    console.log('finishMission - record failed, sheetID: ')
   }
-  
+
   if (todolist.length >= 1 && isCompleted && !mission.repeat) {
     mission.name = todolist.shift().name;
     $(".missions:first").remove();
@@ -185,7 +185,6 @@ function saveMission() {
 
 function saveList() {
   localStorage.setItem('list', JSON.stringify(todolist));
-  cc('saveList: ', todolist)
 };
 
 function getLocal(item) {
@@ -203,7 +202,7 @@ function loadLocal() {
   if (mission.startTime !== undefined) {
     t = ((mission.startTime + mission.minSet * 60000) - Date.now()) / 1000;
     if (t > 1) {
-      let m = parseInt((t) / 60);
+      let m = parseInt(t / 60);
       let s = parseInt(t % 60);
       let angle = (mission.minSet * 60 - t) / (mission.minSet * 60);
       timer.set(m, s, angle);
@@ -287,7 +286,6 @@ function askNotificationPermission() {
       Notification.requestPermission()
         .then((permission) => {
           handlePermission(permission);
-          console.log(Notification.permission);
         })
     } else {
       Notification.requestPermission(function (permission) {
@@ -313,7 +311,6 @@ function askNotificationPermission() {
     // set the button to shown or hidden, depending on what the user answers
     if (Notification.permission === 'denied' || Notification.permission === 'default') {
       displayMissionTitle('Alert has been lock, go to broswer seting and unlock')
-      cc('QQ')
     } else {
       notificationBtn.onclick = function () { createNotification('Timer alert has been actived') }
     };
@@ -331,7 +328,7 @@ $('#sidebarCollapse').on('click', () => {
   $('#sidebar').toggleClass('active');
 });
 
-$('#repeat_switch').click(function() {
+$('#repeat_switch').click(function () {
   mission.repeat = !mission.repeat;
   $(this).toggleClass('repeat_switch');
 });

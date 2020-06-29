@@ -2,8 +2,6 @@
 
 let CLIENT_ID;
 let API_KEY;
-$.getJSON("json/client_secret.json", function (data) { CLIENT_ID = data.web.client_id; });
-$.getJSON("json/api_key.json", function (data) { API_KEY = data.APIKEY; });
 
 let DISCOVERY_DOCS = [
   "https://sheets.googleapis.com/$discovery/rest?version=v4",
@@ -13,7 +11,6 @@ let DISCOVERY_DOCS = [
 let SCOPES = "https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.metadata.readonly";
 
 let sheetID = undefined;
-let startStampPosition;
 let fileName = 'timer_data';
 
 
@@ -21,18 +18,21 @@ let fileName = 'timer_data';
 
 let signoutButton = document.getElementById("signOut");
 let authorizeButton = document.getElementById("signIn");
+authorizeButton.onclick = handleClientLoad;
 
 function handleAuthClick() {
-  gapi.auth2.getAuthInstance().signIn().then(
-    (result) => { getSpreadsheetId(); console.log(result) },
-    (error) => console.log(error)
-  );
-  console.log("gapi.auth2.getAuthInstance().signIn()");
+  gapi.auth2.getAuthInstance().signIn()
+    .then(
+      (result) => { getSpreadsheetId(); console.log(result) },
+      (error) => console.log(error)
+    );
 };
 
 function handleSignoutClick() {
-  gapi.auth2.getAuthInstance().signOut().then((result) => console.log(result), (error) => console.log(error));
-  console.log("gapi.auth2.getAuthInstance().signOut()");
+  gapi.auth2.getAuthInstance().signOut()
+    .then(
+      (result) => console.log(result), (error) => console.log(error)
+    );
 };
 
 function updateSigninStatus(isSignedIn) {
@@ -55,21 +55,19 @@ function initClient() {
     })
     .then(
       function () {
-        // 監聽 updateSigninStatus
         gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
-        // Handle the initial sign-in state.
         let isSigned = gapi.auth2.getAuthInstance().isSignedIn.get();
         updateSigninStatus(isSigned);
 
         authorizeButton.onclick = handleAuthClick;
         signoutButton.onclick = handleSignoutClick;
-        cc('initClient')
-        cc('isSigned', isSigned)
-        getSpreadsheetId();
       },
-      function (error) {
-        test_display = error;
-      }
+      (error) => { console.log('getAuthInstance error: ' + error) }
+    ).then(
+      handleAuthClick,
+      (error) => { console.log('handleAuthClick error: ' + error) }
+    ).then(
+      getSpreadsheetId
     );
 };
 
@@ -79,21 +77,21 @@ function handleClientLoad() {
 
 function getSpreadsheetId() {
   gapi.client.drive.files.list({})
-    .then(function (response) {
-      // Handle the results here (response.result has the parsed body).
-      console.log("getSpreadsheetId() Response: ", response);
-      let filesArray = response.result.files;
-      for (let i = 0; i < filesArray.length; i++) {
-        if (filesArray[i].name == fileName) {
-          sheetID = filesArray[i].id;
-          console.log('find: i=' + i + ' ' + filesArray[i].id)
-          return;
-        }
-      };
-      cc('not found and creat new one');
-      createSpreadsheet();
-    },
-      function (err) { console.error("Execute error", err); });
+    .then(
+      function (response) {
+        // Handle the results here (response.result has the parsed body).
+        let filesArray = response.result.files;
+        for (let i = 0; i < filesArray.length; i++) {
+          if (filesArray[i].name == fileName) {
+            sheetID = filesArray[i].id;
+            return;
+          }
+        };
+        console.log('not found and creat new one');
+        createSpreadsheet();
+      },
+      (error) => { console.log('getSpreadsheetId error: ' + error) }
+    )
 }
 
 function createSpreadsheet() {
@@ -164,9 +162,7 @@ function createSpreadsheet() {
 
   let request = gapi.client.sheets.spreadsheets.create({}, spreadsheetBody);
   request.then(function (response) {
-    console.log('createSpreadsheet response: ' + response);
     sheetID = response.result.spreadsheetId;
-    cc('create a new spreadsheet: ', sheetID)
   }, function (reason) {
     console.error('error: ' + reason.result.error.message);
   });
@@ -185,11 +181,7 @@ function appendRecord(valueArray) {
       "values": [valueArray]
     }
   ).then(
-    function (response) {
-      cc(response.result);
-    },
-    function (response) {
-      cc(response.result.error);
-    }
+    (response) => { console.log('appendRecord response: ' + response) },
+    (error) => { console.log('appendRecord error: ' + error) }
   )
 };
