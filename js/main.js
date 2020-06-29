@@ -215,7 +215,7 @@ function loadLocal() {
       finishMission();
     }
   };
-  drawProgress(mission.minSet / 60);
+  drawChoose(mission.minSet / 60);
 };
 
 
@@ -331,10 +331,14 @@ $('#sidebarCollapse').on('click', () => {
   $('#sidebar').toggleClass('active');
 });
 
-$('#repeat_switch').click(() => {
+$('#repeat_switch').click(function() {
   mission.repeat = !mission.repeat;
-  $('#repeat_switch').toggleClass('repeat_switch');
+  $(this).toggleClass('repeat_switch');
 });
+
+window.addEventListener('resize', function () {
+  drawProgress(lastAngle);
+})
 
 // ==== Drag and Drop
 let dragItem;
