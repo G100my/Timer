@@ -102,7 +102,7 @@ header {
 	overflow-x: scroll;
 	overflow-y: hidden;
 	white-space: nowrap;
-	font-size: 5vmin;
+	font-size: 45px;
 	background-color: var(--dark-green);
 	height: 70px;
 	margin-left: -1px;
@@ -288,6 +288,10 @@ p:hover {
 	}
 	header {
 		height: initial;
+		font-size: 1.65rem;
+		padding-top: 0;
+		padding-bottom: 0;
+
 	}
 	header .icon_button {
 		display: inline-block;
