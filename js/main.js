@@ -142,7 +142,11 @@ $start_btn.click(() => {
 
 $stop_btn.click(() => {
   timer.stop();
-  finishMission(false);
+  if (mission.name === RestMsg || mission.name === SmokeCallMsg) {
+    finishSmokeCall();
+  } else {
+    finishMission(false);
+  }
 
   drawProgress(0);
   displayMissionTitle('Manual Stop');
