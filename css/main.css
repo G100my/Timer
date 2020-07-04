@@ -192,8 +192,10 @@ header>button {
 
 #svg_container {
 	position: relative;
-	height: 57vmin;
-	width: 57vmin;
+	height: 75vmin;
+	width: 75vmin;
+	max-width: 57vw;
+	max-height: 57vw;
 	margin: 6vmin 0;
 }
 
@@ -319,6 +321,8 @@ p:hover {
 	#svg_container {
 		height: 83vmin;
 		width: 83vmin;
+		max-width: 70vh;
+		max-height: 70vh;
 		font-size: 2rem;
 	}
 	p {
